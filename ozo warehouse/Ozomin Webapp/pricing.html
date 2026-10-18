@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pricing — Ozomin Sanitation Services</title>
+<meta name="description" content="Transparent pricing for Ozomin's on-demand sanitation services — sewer cleaning, road sweeping, garbage collection, lake cleanup, and emergency response."/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟢</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/shared.css"/>
+<style>
+/* PRICING-SPECIFIC */
+.pricing-toggle {
+  display: flex; align-items: center; gap: 16px;
+  margin-top: 32px;
+}
+.pricing-toggle span { font-size: 14px; font-weight: 500; color: var(--oz-gray); }
+.pricing-toggle span.active { color: var(--oz-dark); font-weight: 600; }
+.toggle-switch {
+  width: 52px; height: 28px; border-radius: 100px;
+  background: var(--oz-pale); cursor: pointer;
+  position: relative; transition: background 0.3s;
+  border: none;
+}
+.toggle-switch::after {
+  content: ''; position: absolute;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--oz-green); top: 3px; left: 3px;
+  transition: transform 0.3s;
+}
+.toggle-switch.active { background: var(--oz-light); }
+.toggle-switch.active::after { transform: translateX(24px); }
+
+/* PRICING CARDS */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 56px; align-items: start;
+}
+.pricing-card {
+  background: #fff; border: 1.5px solid var(--oz-border);
+  border-radius: 24px; padding: 36px;
+  transition: all 0.3s; position: relative;
+}
+.pricing-card:hover { border-color: var(--oz-light); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(26,61,43,0.08); }
+.pricing-card.featured {
+  border-color: var(--oz-green);
+  box-shadow: 0 8px 32px rgba(26,61,43,0.12);
+}
+.pricing-card.featured::before {
+  content: 'MOST POPULAR';
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--oz-green); color: #fff;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  padding: 4px 16px; border-radius: 100px;
+}
+.pricing-badge {
+  display: inline-block;
+  background: var(--oz-pale); color: var(--oz-green);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  padding: 4px 12px; border-radius: 100px;
+  margin-bottom: 16px;
+}
+.pricing-card h3 {
+  font-size: 22px; font-weight: 800;
+  margin-bottom: 8px; letter-spacing: -0.5px;
+}
+.pricing-card .desc {
+  font-size: 14px; color: var(--oz-gray);
+  line-height: 1.6; margin-bottom: 24px;
+}
+.pricing-amount {
+  display: flex; align-items: baseline; gap: 4px;
+  margin-bottom: 24px; padding-bottom: 24px;
+  border-bottom: 1px solid var(--oz-border);
+}
+.pricing-amount .currency {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px; font-weight: 700; color: var(--oz-dark);
+}
+.pricing-amount .value {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px; font-weight: 800; color: var(--oz-dark);
+  line-height: 1; letter-spacing: -2px;
+}
+.pricing-amount .unit {
+  font-size: 14px; color: var(--oz-gray); font-weight: 400;
+}
+.pricing-features { margin-bottom: 28px; }
+.pricing-feature {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0; font-size: 14px; color: var(--oz-dark);
+}
+.pricing-feature .check {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--oz-pale); color: var(--oz-green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0; font-weight: 700;
+}
+.pricing-card .btn-primary, .pricing-card .btn-green, .pricing-card .btn-outline {
+  width: 100%; text-align: center;
+}
+
+/* SERVICE RATES TABLE */
+.rates-table {
+  width: 100%; border-collapse: collapse;
+  margin-top: 56px; border-radius: 16px;
+  overflow: hidden; border: 1px solid var(--oz-border);
+}
+.rates-table thead th {
+  background: var(--oz-dark); color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 600;
+  padding: 16px 20px; text-align: left;
+  letter-spacing: 0.3px;
+}
+.rates-table tbody td {
+  padding: 16px 20px; font-size: 14px;
+  border-bottom: 1px solid var(--oz-border);
+  color: var(--oz-dark);
+}
+.rates-table tbody tr:last-child td { border-bottom: none; }
+.rates-table tbody tr:hover { background: var(--oz-cream); }
+.rate-tag {
+  display: inline-block; font-size: 11px;
+  font-weight: 600; padding: 3px 10px;
+  border-radius: 100px;
+}
+.rate-tag.instant { background: rgba(82,183,136,0.12); color: var(--oz-mid); }
+.rate-tag.scheduled { background: rgba(231,111,0,0.1); color: var(--oz-amber); }
+
+/* GUARANTEE */
+.guarantee-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 20px; margin-top: 56px;
+}
+.guarantee-card {
+  text-align: center; padding: 32px 20px;
+  border: 1px solid var(--oz-border);
+  border-radius: 20px; transition: all 0.3s;
+}
+.guarantee-card:hover { border-color: var(--oz-light); }
+.guarantee-icon {
+  font-size: 32px; margin-bottom: 14px;
+}
+.guarantee-card h4 {
+  font-size: 15px; font-weight: 700; margin-bottom: 6px;
+}
+.guarantee-card p {
+  font-size: 13px; color: var(--oz-gray); line-height: 1.5;
+}
+
+/* CTA BAND */
+.cta-band {
+  background: var(--oz-green); padding: 60px 40px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 32px; flex-wrap: wrap;
+}
+.cta-band h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800; color: #fff;
+  letter-spacing: -1px; max-width: 500px; line-height: 1.2;
+}
+.cta-band-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+@media (max-width: 1024px) {
+  .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+  .guarantee-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .rates-table { font-size: 13px; }
+  .rates-table thead th, .rates-table tbody td { padding: 12px 14px; }
+  .cta-band { padding: 40px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="ozomin_website.html">
+    <div class="nav-logo-dot"></div>
+    Ozomin
+  </a>
+  <div class="nav-links">
+    <a href="ozomin_website.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="pricing.html" class="active">Pricing</a>
+    <a href="partner.html">Partner</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="nav-cta" href="careers.html">Join as Worker</a>
+</nav>
+<div class="mobile-menu">
+  <a href="ozomin_website.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="partner.html">Partner</a>
+  <a href="careers.html">Careers</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb animate-up">
+      <a href="ozomin_website.html">Home</a>
+      <span class="sep">›</span>
+      <span>Pricing</span>
+    </div>
+    <div class="section-label animate-up-d1">Transparent pricing</div>
+    <h1 class="page-hero-title animate-up-d2">Sahi kaam.<br/><span>Sahi daam.</span></h1>
+    <p class="page-hero-sub animate-up-d3">No hidden charges. No surge pricing. Every service priced clearly — whether you're a citizen booking once or a municipality running 500 jobs a month.</p>
+  </div>
+</div>
+
+<!-- PRICING PLANS -->
+<section class="page-section">
+  <div class="section-label">Plans</div>
+  <h2 class="section-title">Choose how you clean</h2>
+  <p class="section-sub">From one-off bookings to dedicated city contracts — Ozomin scales with you.</p>
+
+  <div class="pricing-grid reveal">
+    <!-- CITIZEN -->
+    <div class="pricing-card">
+      <div class="pricing-badge">Individual</div>
+      <h3>Citizen</h3>
+      <div class="desc">For homeowners, RWA members, and small businesses. Book any service, pay per job. No commitment.</div>
+      <div class="pricing-amount">
+        <span class="currency">₹</span>
+        <span class="value">149</span>
+        <span class="unit">/ job onwards</span>
+      </div>
+      <div class="pricing-features">
+        <div class="pricing-feature"><div class="check">✓</div> Book any service on-demand</div>
+        <div class="pricing-feature"><div class="check">✓</div> Worker arrives in ≤15 min</div>
+        <div class="pricing-feature"><div class="check">✓</div> Before/after photo proof</div>
+        <div class="pricing-feature"><div class="check">✓</div> Live GPS tracking</div>
+        <div class="pricing-feature"><div class="check">✓</div> Warehouse receipt for waste</div>
+        <div class="pricing-feature"><div class="check">✓</div> UPI / Card / Cash payment</div>
+      </div>
+      <a href="contact.html" class="btn-outline">Get Started</a>
+    </div>
+
+    <!-- COLONY -->
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Colony / RWA</div>
+      <h3>Colony Plan</h3>
+      <div class="desc">For gated societies and commercial complexes. Scheduled daily sweeping + on-demand jobs. Dedicated worker allocation.</div>
+      <div class="pricing-amount">
+        <span class="currency">₹</span>
+        <span class="value">8,999</span>
+        <span class="unit">/ month</span>
+      </div>
+      <div class="pricing-features">
+        <div class="pricing-feature"><div class="check">✓</div> Everything in Citizen</div>
+        <div class="pricing-feature"><div class="check">✓</div> Dedicated assigned workers</div>
+        <div class="pricing-feature"><div class="check">✓</div> Daily scheduled sweeping</div>
+        <div class="pricing-feature"><div class="check">✓</div> Weekly drain & sewer check</div>
+        <div class="pricing-feature"><div class="check">✓</div> Monthly compliance report</div>
+        <div class="pricing-feature"><div class="check">✓</div> Admin dashboard access</div>
+        <div class="pricing-feature"><div class="check">✓</div> Priority emergency response</div>
+      </div>
+      <a href="contact.html" class="btn-green">Contact Sales</a>
+    </div>
+
+    <!-- MUNICIPALITY -->
+    <div class="pricing-card">
+      <div class="pricing-badge">Enterprise</div>
+      <h3>Municipality</h3>
+      <div class="desc">Full city-scale sanitation operations. Hundreds of workers. SBM-compliant reporting. Warehouse integration. Custom SLA.</div>
+      <div class="pricing-amount">
+        <span class="value" style="font-size:36px;">Custom</span>
+        <span class="unit" style="margin-left:8px;">pricing</span>
+      </div>
+      <div class="pricing-features">
+        <div class="pricing-feature"><div class="check">✓</div> Everything in Colony</div>
+        <div class="pricing-feature"><div class="check">✓</div> 100+ dedicated workers</div>
+        <div class="pricing-feature"><div class="check">✓</div> OZ Warehouse in your city</div>
+        <div class="pricing-feature"><div class="check">✓</div> Swachh Bharat auto-reports</div>
+        <div class="pricing-feature"><div class="check">✓</div> Custom SLA & KPIs</div>
+        <div class="pricing-feature"><div class="check">✓</div> Dedicated account manager</div>
+        <div class="pricing-feature"><div class="check">✓</div> API integration available</div>
+        <div class="pricing-feature"><div class="check">✓</div> Real-time analytics dashboard</div>
+      </div>
+      <a href="partner.html" class="btn-outline">Talk to Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE RATES TABLE -->
+<section class="page-section bg-cream">
+  <div class="section-label">Service rates</div>
+  <h2 class="section-title">Per-service rate card</h2>
+  <p class="section-sub">Exact rates for each job type. These are starting prices — actual cost depends on area size, waste volume, and complexity.</p>
+
+  <table class="rates-table reveal">
+    <thead>
+      <tr>
+        <th>Service</th>
+        <th>Starting Rate</th>
+        <th>Typical Duration</th>
+        <th>Type</th>
+        <th>Includes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>🚰 Sewer & Drain Cleaning</strong></td>
+        <td><strong>₹249</strong></td>
+        <td>30–60 min</td>
+        <td><span class="rate-tag instant">Instant</span></td>
+        <td>PPE worker, tools, sludge disposal</td>
+      </tr>
+      <tr>
+        <td><strong>🧹 Road Sweeping</strong></td>
+        <td><strong>₹149</strong></td>
+        <td>45–90 min</td>
+        <td><span class="rate-tag scheduled">Scheduled</span></td>
+        <td>Broom, dustpan, waste bag, segregation</td>
+      </tr>
+      <tr>
+        <td><strong>🗑️ Garbage Collection</strong></td>
+        <td><strong>₹99</strong></td>
+        <td>15–30 min</td>
+        <td><span class="rate-tag instant">Instant</span></td>
+        <td>Door pickup, wet/dry sort, warehouse delivery</td>
+      </tr>
+      <tr>
+        <td><strong>🌊 Lake & Pond Cleanup</strong></td>
+        <td><strong>₹1,499</strong></td>
+        <td>Half-day project</td>
+        <td><span class="rate-tag scheduled">Scheduled</span></td>
+        <td>Trained lake pickers, GPS-logged collection</td>
+      </tr>
+      <tr>
+        <td><strong>🏗️ Construction Debris</strong></td>
+        <td><strong>₹999</strong></td>
+        <td>2–4 hours</td>
+        <td><span class="rate-tag instant">Instant</span></td>
+        <td>Fleet, material segregation, compliant disposal</td>
+      </tr>
+      <tr>
+        <td><strong>⚡ Emergency Response</strong></td>
+        <td><strong>₹499</strong></td>
+        <td>Varies</td>
+        <td><span class="rate-tag instant">Instant</span></td>
+        <td>Priority dispatch, 10 min SLA, fleet if needed</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- GUARANTEES -->
+<section class="page-section">
+  <div class="section-label">Our promise</div>
+  <h2 class="section-title">Every rupee you pay is backed by proof</h2>
+  <div class="guarantee-grid reveal">
+    <div class="guarantee-card">
+      <div class="guarantee-icon">⏱️</div>
+      <h4>15-min guarantee</h4>
+      <p>Worker doesn't arrive in 15 min? Job is free. No questions asked.</p>
+    </div>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">📸</div>
+      <h4>Photo proof</h4>
+      <p>GPS-stamped before/after photos delivered to your phone for every single job.</p>
+    </div>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">🧾</div>
+      <h4>Warehouse receipt</h4>
+      <p>Know exactly where your waste went — weighed, graded, and sold to verified recyclers.</p>
+    </div>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">💸</div>
+      <h4>No surge pricing</h4>
+      <p>Same rate at 6 AM or midnight. Rain or shine. We don't do dynamic pricing games.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Need a custom quote for your colony or city? Talk to our team.</h2>
+  <div class="cta-band-actions">
+    <a class="btn-primary" href="contact.html">Get a Quote</a>
+    <a class="btn-outline-white" href="partner.html">Partner Details</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="footer-logo" href="ozomin_website.html">
+        <div class="footer-logo-dot"></div>
+        Ozomin
+      </a>
+      <div class="footer-tagline">India's first on-demand sanitation platform. Every kilo of waste collected is a kilo that pays.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <a href="about.html">About</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="careers.html">Join as Worker</a>
+      <a href="partner.html">Partner</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="#">Worker App</a>
+      <a href="#">Request App</a>
+      <a href="#">Admin Dashboard</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-text">© 2026 Ozomin. Maestroedge Solutions Pvt. Ltd. · Ghaziabad, UP</div>
+    <div class="footer-swachh">Aligned with Swachh Bharat Mission</div>
+  </div>
+</footer>
+
+<script src="js/shared.js"></script>
+</body>
+</html>

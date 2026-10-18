@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Swachta – Interactive Demo</title>
+<meta name="description" content="Swachta – India's first on-demand sanitation platform. Schedule waste pickup, scrap sales, and recycling in seconds." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+/* ── Reset & Base ────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --brand: #4A7C3F;
+  --brand-dark: #1D4E1A;
+  --brand-deep: #0F2E0D;
+  --surface-bg: #F3FAF3;
+  --surface-card: #FFFFFF;
+  --text-primary: #1F2A20;
+  --text-secondary: #6B7A6D;
+  --text-on-brand: #FFFFFF;
+  --danger: #E5484D;
+  --info: #3B82F6;
+  --gold: #C9A227;
+  --border: #DCE7DC;
+  --green-light: #E8F5E9;
+  --green-pale: #EFF7EF;
+  --green-mid: #81C784;
+  --status-completed: #4A7C3F;
+  --status-cancelled: #E5484D;
+  --status-pending: #F59E0B;
+  --status-ongoing: #3B82F6;
+}
+html, body {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background: #e0e8e0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px 0;
+  min-height: 100vh;
+}
+
+/* ── Phone Shell ─────────────────────────────────────────────────────── */
+#phone {
+  width: 390px;
+  height: 844px;
+  background: var(--surface-bg);
+  border-radius: 48px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.35), 0 0 0 12px #111, 0 0 0 14px #333;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Status bar */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 28px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex-shrink: 0;
+  z-index: 100;
+  position: relative;
+}
+.status-bar .icons { display: flex; gap: 6px; align-items: center; }
+.status-bar svg { width: 16px; height: 16px; }
+
+/* Screens */
+.screen {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+.screen.active { display: flex; }
+
+/* Scrollable content */
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-area::-webkit-scrollbar { display: none; }
+
+/* ── Animations ──────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.6; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes loader-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes bounce-truck {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.03); }
+}
+.anim-fade-up { animation: fadeInUp 0.5s ease both; }
+.anim-scale { animation: scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+.anim-slide-right { animation: slideInRight 0.35s ease both; }
+
+/* ── Buttons ─────────────────────────────────────────────────────────── */
+.btn-primary {
+  width: 100%;
+  height: 54px;
+  border-radius: 28px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-primary:active { transform: scale(0.97); opacity: 0.9; }
+.btn-secondary {
+  width: 100%;
+  height: 54px;
+  border-radius: 28px;
+  background: transparent;
+  color: var(--brand);
+  font-size: 16px;
+  font-weight: 700;
+  border: 2px solid var(--brand);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.btn-secondary:active { transform: scale(0.97); }
+.btn-danger {
+  width: 100%;
+  height: 54px;
+  border-radius: 28px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+.btn-text { background: none; border: none; color: var(--brand); font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: underline; }
+.btn-sm {
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ── Input ───────────────────────────────────────────────────────────── */
+.input-group { margin-bottom: 16px; }
+.input-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+.input-group input {
+  width: 100%;
+  height: 50px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  background: var(--surface-card);
+  padding: 0 16px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text-primary);
+  transition: border-color 0.2s;
+}
+.input-group input:focus { outline: none; border-color: var(--brand); }
+
+/* ── Cards ───────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface-card);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.card + .card { margin-top: 12px; }
+
+/* ── Bottom Nav ──────────────────────────────────────────────────────── */
+.bottom-nav {
+  display: flex;
+  background: var(--surface-card);
+  border-top: 1px solid var(--border);
+  border-radius: 20px 20px 0 0;
+  padding: 8px 0 16px;
+  flex-shrink: 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+}
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: transform 0.15s;
+  background: none;
+  border: none;
+}
+.nav-item:active { transform: scale(0.9); }
+.nav-item .nav-icon { font-size: 22px; position: relative; }
+.nav-item .nav-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+.nav-item.active .nav-label { color: var(--brand); font-weight: 700; }
+.nav-item .nav-indicator { width: 36px; height: 36px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; }
+
+/* ── Top Bar ─────────────────────────────────────────────────────────── */
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 8px;
+  background: var(--surface-card);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.top-bar h2 { font-size: 20px; font-weight: 700; flex: 1; }
+.back-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--green-pale);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  transition: transform 0.15s;
+}
+.back-btn:active { transform: scale(0.9); }
+.icon-btn { background: none; border: none; cursor: pointer; font-size: 20px; padding: 4px; }
+
+/* ── Chip ────────────────────────────────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--surface-card);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.chip.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+/* ── Status badges ───────────────────────────────────────────────────── */
+.badge { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-completed { background: rgba(74,124,63,.12); color: var(--status-completed); border: 1px solid rgba(74,124,63,.25); }
+.badge-cancelled { background: rgba(229,72,77,.12); color: var(--status-cancelled); border: 1px solid rgba(229,72,77,.25); }
+.badge-pending { background: rgba(245,158,11,.12); color: var(--status-pending); border: 1px solid rgba(245,158,11,.25); }
+.badge-ongoing { background: rgba(59,130,246,.12); color: var(--status-ongoing); border: 1px solid rgba(59,130,246,.25); }
+
+/* ── Slot chips ──────────────────────────────────────────────────────── */
+.slots { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.slots::-webkit-scrollbar { display: none; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* SPLASH SCREEN                                                           */
+/* ─────────────────────────────────────────────────────────────────────── */
+#splash {
+  background: var(--surface-bg);
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+.splash-bg-blob1 {
+  position: absolute; width: 280px; height: 280px; border-radius: 50%;
+  background: rgba(232,245,233,0.6); top: -60px; right: -60px;
+}
+.splash-bg-blob2 {
+  position: absolute; width: 160px; height: 160px; border-radius: 50%;
+  background: rgba(239,247,239,0.8); bottom: -30px; left: -30px;
+}
+.truck-wrap {
+  animation: bounce-truck 2s ease-in-out infinite;
+  font-size: 100px;
+  line-height: 1;
+}
+.splash-title { font-size: 36px; font-weight: 900; color: var(--brand-dark); letter-spacing: 4px; margin: 16px 0 4px; }
+.splash-sub { font-size: 14px; color: var(--text-secondary); }
+.loader-track { width: 160px; height: 4px; background: var(--border); border-radius: 2px; margin: 28px auto 0; overflow: hidden; }
+.loader-fill { height: 100%; background: linear-gradient(90deg, var(--brand), var(--brand-dark)); border-radius: 2px; animation: loader-fill 2s ease forwards; width: 0; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* ONBOARDING                                                              */
+/* ─────────────────────────────────────────────────────────────────────── */
+#onboarding { background: var(--surface-bg); }
+.ob-blob1 { position: absolute; width: 220px; height: 220px; border-radius: 50%; background: rgba(232,245,233,0.5); top: -30px; right: -50px; }
+.ob-blob2 { position: absolute; width: 140px; height: 140px; border-radius: 50%; background: var(--green-pale); bottom: -20px; left: -20px; }
+.ob-slide { display: none; flex-direction: column; padding: 24px 24px 0; flex: 1; }
+.ob-slide.active { display: flex; animation: fadeInUp 0.4s ease; }
+.ob-illus {
+  width: 100%;
+  height: 240px;
+  border-radius: 24px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 80px;
+  position: relative;
+  overflow: hidden;
+}
+.ob-headline { font-size: 26px; font-weight: 800; color: var(--text-primary); margin-top: 28px; line-height: 1.2; }
+.ob-body { font-size: 15px; color: var(--text-secondary); margin-top: 12px; line-height: 1.5; }
+.ob-bottom { padding: 20px 24px 32px; flex-shrink: 0; }
+.ob-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 20px; }
+.ob-dot { height: 8px; border-radius: 4px; background: var(--border); transition: all 0.3s; width: 8px; }
+.ob-dot.active { background: var(--brand); width: 28px; }
+.ob-btn-row { display: flex; gap: 12px; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* SIGN UP / LOGIN                                                          */
+/* ─────────────────────────────────────────────────────────────────────── */
+#signup, #login { background: var(--surface-bg); }
+.auth-content { padding: 0 24px 40px; }
+.auth-title { font-size: 30px; font-weight: 800; color: var(--text-primary); text-align: center; margin-bottom: 6px; }
+.auth-sub { font-size: 15px; color: var(--text-secondary); text-align: center; margin-bottom: 32px; line-height: 1.4; }
+.auth-blob1 { position: absolute; width: 180px; height: 180px; border-radius: 50%; background: rgba(232,245,233,0.5); top: -20px; right: -50px; }
+.auth-blob2 { position: absolute; width: 120px; height: 120px; border-radius: 50%; background: var(--green-pale); bottom: -20px; left: -20px; }
+.social-btn {
+  width: 100%; height: 50px; border-radius: 28px;
+  border: 1.5px solid var(--border); background: #fff;
+  font-size: 15px; font-weight: 600; font-family: inherit;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 10px; transition: box-shadow 0.2s;
+}
+.social-btn:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.or-divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
+.or-divider hr { flex: 1; border: none; border-top: 1px solid var(--border); }
+.or-divider span { font-size: 12px; color: var(--text-secondary); white-space: nowrap; }
+.auth-link-row { text-align: center; font-size: 14px; color: var(--text-secondary); }
+.auth-link-row a { color: var(--brand); font-weight: 600; cursor: pointer; text-decoration: none; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* OTP                                                                     */
+/* ─────────────────────────────────────────────────────────────────────── */
+#otp { background: var(--surface-bg); align-items: center; }
+.otp-illus { font-size: 80px; margin: 16px 0; animation: bounce-truck 2s ease infinite; }
+.otp-title { font-size: 30px; font-weight: 800; }
+.otp-sub { font-size: 14px; color: var(--text-secondary); text-align: center; margin-bottom: 28px; }
+.otp-boxes { display: flex; gap: 12px; justify-content: center; margin-bottom: 28px; }
+.otp-box {
+  width: 64px; height: 64px; border-radius: 14px;
+  border: 1.5px solid var(--border); background: #fff;
+  font-size: 28px; font-weight: 700; text-align: center;
+  font-family: inherit; color: var(--text-primary);
+  transition: border-color 0.2s;
+}
+.otp-box:focus { outline: none; border-color: var(--brand); }
+.otp-box.filled { border-color: var(--brand); }
+.otp-actions { width: 100%; padding: 0 28px; }
+.resend-timer { text-align: center; font-size: 14px; color: var(--text-secondary); margin-top: 12px; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* VERIFIED                                                                */
+/* ─────────────────────────────────────────────────────────────────────── */
+#verified { background: var(--surface-bg); align-items: center; justify-content: center; }
+.verified-circles { position: relative; display: flex; align-items: center; justify-content: center; width: 160px; height: 160px; margin-bottom: 28px; }
+.v-ring3 { position: absolute; width: 160px; height: 160px; border-radius: 50%; background: var(--green-light); animation: scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+.v-ring2 { position: absolute; width: 120px; height: 120px; border-radius: 50%; background: rgba(129,199,132,0.4); animation: scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s both; }
+.v-ring1 { position: absolute; width: 84px; height: 84px; border-radius: 50%; background: var(--brand); display: flex; align-items: center; justify-content: center; animation: scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s both; }
+.v-check { font-size: 36px; color: #fff; line-height: 1; }
+.verified-title { font-size: 36px; font-weight: 800; color: var(--brand-dark); margin-bottom: 8px; }
+.verified-sub { font-size: 15px; color: var(--text-secondary); text-align: center; margin-bottom: 40px; }
+.verified-actions { width: 100%; padding: 0 28px; display: flex; flex-direction: column; gap: 12px; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* LOCATION                                                                */
+/* ─────────────────────────────────────────────────────────────────────── */
+#location { background: var(--surface-bg); align-items: center; justify-content: center; }
+.loc-icon { font-size: 56px; width: 100px; height: 100px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; margin-bottom: 28px; animation: scaleIn 0.5s ease; }
+.loc-title { font-size: 28px; font-weight: 800; text-align: center; margin-bottom: 10px; }
+.loc-sub { font-size: 15px; color: var(--text-secondary); text-align: center; margin-bottom: 40px; line-height: 1.5; }
+.loc-actions { width: 100%; padding: 0 28px; display: flex; flex-direction: column; gap: 12px; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* HOME                                                                    */
+/* ─────────────────────────────────────────────────────────────────────── */
+#home { background: var(--surface-bg); }
+.home-topbar {
+  display: flex; align-items: center; padding: 12px 16px;
+  background: var(--surface-bg); flex-shrink: 0;
+}
+.home-location { flex: 1; padding: 0 8px; }
+.home-location .loc-label { font-size: 11px; color: var(--text-secondary); }
+.home-location .loc-val { font-size: 15px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 2px; }
+.home-search {
+  margin: 0 16px 16px;
+  display: flex; align-items: center;
+  background: #fff; border: 1.5px solid var(--border); border-radius: 14px;
+  padding: 10px 14px; gap: 8px;
+}
+.home-search input { flex: 1; border: none; background: none; font-size: 14px; color: var(--text-secondary); font-family: inherit; outline: none; }
+
+/* Offer banner */
+.offer-banner {
+  margin: 0 16px;
+  border-radius: 20px;
+  height: 160px;
+  display: flex; align-items: flex-start;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.offer-banner:active { transform: scale(0.98); }
+.offer-content { z-index: 1; }
+.offer-title { font-size: 28px; font-weight: 900; color: #fff; }
+.offer-sub { font-size: 14px; color: rgba(255,255,255,.85); margin-bottom: 10px; }
+.offer-cta { background: rgba(255,255,255,.2); padding: 6px 14px; border-radius: 20px; font-size: 13px; color: #fff; font-weight: 600; display: inline-block; }
+.offer-emoji { position: absolute; right: 20px; bottom: 12px; font-size: 52px; }
+.offer-dots { display: flex; gap: 6px; justify-content: center; margin-top: 10px; }
+.offer-dot { width: 6px; height: 6px; border-radius: 3px; background: var(--border); transition: all 0.3s; }
+.offer-dot.active { background: var(--brand); width: 20px; }
+
+/* Services grid */
+.services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 16px; }
+.service-card {
+  border-radius: 16px;
+  height: 140px;
+  padding: 14px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform 0.2s;
+}
+.service-card:active { transform: scale(0.96); }
+.service-card.pale { background: var(--green-pale); }
+.service-card.plant { background: linear-gradient(135deg, #1B5E20, #4A7C3F); }
+.service-emoji { font-size: 28px; position: absolute; top: 14px; left: 14px; }
+.service-name { font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
+.service-card.plant .service-name { color: var(--gold); font-size: 15px; }
+.service-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.service-card.plant .service-sub { color: rgba(255,255,255,.7); }
+.service-card.plant .btn-sm { margin-top: 8px; background: var(--brand); }
+
+/* Refer banner */
+.refer-banner {
+  margin: 0 16px;
+  background: var(--green-light);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 16px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.refer-banner:active { transform: scale(0.98); }
+.refer-text h3 { font-size: 18px; font-weight: 900; color: var(--brand-dark); }
+.refer-text p { font-size: 12px; color: var(--text-secondary); margin: 4px 0 10px; }
+.refer-emoji { font-size: 40px; margin-left: auto; flex-shrink: 0; }
+
+/* Footer */
+.home-footer { text-align: center; padding: 16px; }
+.home-footer .tagline { font-size: 13px; color: var(--text-secondary); }
+.home-footer .brand-big { font-size: 30px; font-weight: 900; color: var(--brand-dark); letter-spacing: 2px; }
+.home-footer .trust { font-size: 13px; color: var(--text-secondary); }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* SERVICE SCREENS                                                         */
+/* ─────────────────────────────────────────────────────────────────────── */
+.service-header {
+  padding: 48px 16px 24px;
+  display: flex; align-items: center; gap: 8px;
+  flex-shrink: 0;
+}
+.service-header h1 { font-size: 22px; font-weight: 800; color: #fff; flex: 1; }
+.service-header .emoji { font-size: 36px; }
+
+.detect-cta {
+  background: var(--green-light);
+  border: 1px dashed var(--brand);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.detect-cta:active { transform: scale(0.98); }
+.detect-cta .cam-icon { font-size: 36px; margin-bottom: 8px; }
+.detect-cta h3 { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.detect-cta p { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+
+/* Detected material row */
+.material-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--green-pale); border-radius: 10px; padding: 10px 12px;
+  margin-bottom: 8px;
+}
+.mat-icon { width: 36px; height: 36px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.mat-info { flex: 1; }
+.mat-name { font-size: 14px; font-weight: 600; }
+.mat-conf { font-size: 12px; color: var(--brand); font-weight: 500; }
+.mat-del { background: none; border: none; font-size: 18px; cursor: pointer; padding: 4px; color: var(--danger); transition: transform 0.15s; }
+.mat-del:active { transform: scale(0.85); }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* BOOKING CONFIRMED                                                       */
+/* ─────────────────────────────────────────────────────────────────────── */
+#booking-confirmed { background: var(--surface-bg); align-items: center; }
+.confirmed-circles { position: relative; width: 140px; height: 140px; margin: 40px 0 24px; }
+.c-ring3 { position: absolute; width: 140px; height: 140px; border-radius: 50%; background: var(--green-light); animation: scaleIn 0.5s ease both; }
+.c-ring2 { position: absolute; width: 108px; height: 108px; border-radius: 50%; background: rgba(129,199,132,.4); top: 16px; left: 16px; animation: scaleIn 0.5s ease 0.1s both; }
+.c-ring1 { position: absolute; width: 80px; height: 80px; border-radius: 50%; background: var(--brand); top: 30px; left: 30px; display: flex; align-items: center; justify-content: center; animation: scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s both; }
+.confirmed-title { font-size: 28px; font-weight: 900; color: var(--brand-dark); margin-bottom: 6px; }
+.confirmed-sub { font-size: 14px; color: var(--text-secondary); text-align: center; margin-bottom: 24px; }
+.booking-detail { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.booking-detail-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.booking-detail-label { font-size: 11px; color: var(--text-secondary); }
+.booking-detail-val { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* MY BOOKINGS                                                             */
+/* ─────────────────────────────────────────────────────────────────────── */
+#bookings { background: var(--surface-bg); }
+.bookings-header { padding: 16px 20px; display: flex; align-items: center; gap: 8px; }
+.bookings-header .back-btn { flex-shrink: 0; }
+.bookings-title h2 { font-size: 20px; font-weight: 800; color: var(--brand); }
+.bookings-title p { font-size: 12px; color: var(--text-secondary); }
+.booking-card { background: #fff; border-radius: 14px; padding: 14px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.booking-service { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+.booking-price { font-size: 20px; font-weight: 700; color: var(--brand); }
+.booking-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.booking-date { font-size: 12px; color: var(--text-secondary); }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* IMPACT                                                                  */
+/* ─────────────────────────────────────────────────────────────────────── */
+#impact { background: var(--surface-bg); }
+.progress-bar-track { width: 100%; height: 8px; background: rgba(255,255,255,.2); border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #fff; border-radius: 4px; transition: width 1.2s ease; }
+.stat-card { background: #fff; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 12px; }
+.stat-big { font-size: 40px; font-weight: 900; color: var(--text-primary); }
+.stat-unit { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+.stat-label { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.achievement-badge { display: flex; flex-direction: column; align-items: center; width: 80px; }
+.badge-circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(201,162,39,.12); border: 2px solid rgba(201,162,39,.35); display: flex; align-items: center; justify-content: center; font-size: 28px; }
+.badge-label { font-size: 11px; color: var(--text-secondary); text-align: center; margin-top: 4px; line-height: 1.3; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* PROFILE                                                                 */
+/* ─────────────────────────────────────────────────────────────────────── */
+#profile { background: var(--surface-bg); }
+.profile-header {
+  background: linear-gradient(180deg, var(--brand-dark), var(--brand));
+  padding: 48px 20px 32px;
+  display: flex; flex-direction: column; align-items: center;
+  flex-shrink: 0;
+}
+.avatar { width: 84px; height: 84px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 800; color: var(--brand-dark); margin-bottom: 12px; }
+.profile-name { font-size: 20px; font-weight: 700; color: #fff; }
+.profile-phone { font-size: 13px; color: rgba(255,255,255,.8); margin-bottom: 14px; }
+.profile-stats { display: flex; gap: 10px; }
+.stat-chip { background: rgba(255,255,255,.15); border-radius: 12px; padding: 8px 14px; text-align: center; }
+.stat-chip-val { font-size: 16px; font-weight: 700; color: #fff; }
+.stat-chip-label { font-size: 10px; color: rgba(255,255,255,.75); }
+
+.menu-item {
+  display: flex; align-items: center; gap: 12px;
+  background: #fff; border-radius: 12px; padding: 14px 16px;
+  margin-bottom: 4px; cursor: pointer; transition: transform 0.15s;
+}
+.menu-item:active { transform: scale(0.98); }
+.menu-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.menu-label { flex: 1; font-size: 15px; font-weight: 500; color: var(--text-primary); }
+.menu-arrow { font-size: 18px; color: var(--text-secondary); }
+.menu-item.danger .menu-icon { background: rgba(229,72,77,.1); }
+.menu-item.danger .menu-label { color: var(--danger); }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* CAMERA                                                                  */
+/* ─────────────────────────────────────────────────────────────────────── */
+#camera { background: #111; }
+.camera-view { flex: 1; background: linear-gradient(180deg, #1B5E20, #000); display: flex; align-items: center; justify-content: center; position: relative; }
+.camera-center { font-size: 72px; opacity: 0.4; }
+.cam-corners { position: absolute; inset: 0; pointer-events: none; }
+.cam-corners::before, .cam-corners::after { content: ''; position: absolute; width: 40px; height: 40px; border-color: rgba(255,255,255,.7); border-style: solid; }
+.cam-corners::before { top: 20%; left: 20%; border-width: 3px 0 0 3px; }
+.cam-corners::after { bottom: 20%; right: 20%; border-width: 0 3px 3px 0; }
+.camera-overlay { background: rgba(0,0,0,.85); border-radius: 24px 24px 0 0; padding: 20px; flex-shrink: 0; }
+.cam-controls { display: flex; justify-content: space-around; align-items: center; margin-top: 16px; }
+.cam-btn { width: 52px; height: 52px; border-radius: 14px; background: rgba(255,255,255,.15); border: none; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.cam-capture { width: 72px; height: 72px; border-radius: 50%; border: 3px solid #fff; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.cam-capture-inner { width: 58px; height: 58px; border-radius: 50%; background: #fff; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* REELS                                                                   */
+/* ─────────────────────────────────────────────────────────────────────── */
+#reels { background: #000; }
+.reel-view { flex: 1; background: linear-gradient(180deg, #1B5E20 0%, #000 100%); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.reel-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 64px; height: 64px; border-radius: 50%; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; font-size: 26px; color: #fff; }
+.reel-meta { position: absolute; bottom: 24px; left: 16px; right: 80px; }
+.reel-meta h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.reel-meta p { font-size: 13px; color: rgba(255,255,255,.75); }
+.reel-actions { position: absolute; right: 12px; bottom: 24px; display: flex; flex-direction: column; gap: 20px; align-items: center; }
+.reel-action { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.reel-action span:first-child { font-size: 24px; }
+.reel-action span:last-child { font-size: 11px; color: #fff; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* MODAL                                                                   */
+/* ─────────────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,.5);
+  display: none; align-items: flex-end; z-index: 200;
+  border-radius: 48px;
+  overflow: hidden;
+}
+.modal-overlay.open { display: flex; }
+.modal-sheet {
+  width: 100%; background: #fff;
+  border-radius: 24px 24px 0 0;
+  padding: 24px;
+  animation: slideInUp 0.35s ease;
+}
+@keyframes slideInUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.modal-handle { width: 40px; height: 4px; border-radius: 2px; background: var(--border); margin: 0 auto 20px; }
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Section headings                                                        */
+/* ─────────────────────────────────────────────────────────────────────── */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.section-header h3 { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+.section-header .see-more { font-size: 13px; color: var(--brand); font-weight: 600; background: none; border: none; cursor: pointer; }
+
+/* info chip */
+.info-chip {
+  background: rgba(59,130,246,.08);
+  border: 1px solid rgba(59,130,246,.25);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex; align-items: flex-start; gap: 8px;
+  margin-top: 8px;
+}
+.info-chip-icon { font-size: 16px; flex-shrink: 0; }
+.info-chip p { font-size: 12px; color: #1e40af; }
+.info-chip a { color: var(--info); font-weight: 600; text-decoration: none; cursor: pointer; }
+
+/* bottom bar fixed */
+.service-bottom-bar {
+  padding: 12px 20px;
+  background: var(--surface-card);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+<div id="phone">
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <span id="time-display">9:41</span>
+    <div class="icons">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+    </div>
+  </div>
+
+  <!-- ── SPLASH ─────────────────────────────────────────────────────── -->
+  <div class="screen active" id="splash">
+    <div class="splash-bg-blob1"></div>
+    <div class="splash-bg-blob2"></div>
+    <div class="truck-wrap" style="animation: bounce-truck 2s ease-in-out infinite;">
+      <img src="file:///C:/Users/ahiva/.gemini/antigravity-ide/brain/ab7da818-3373-406f-add0-1bb7a3576981/media__1784421078110.png" style="width:200px; height:auto; display:block;" alt="Swachta Logo" />
+    </div>
+    <p class="splash-title" style="margin-top:24px;">SWACHTA</p>
+    <p class="splash-sub">Saaf Sheher. Sahi Daam.</p>
+    <div class="loader-track"><div class="loader-fill" id="loader-fill"></div></div>
+  </div>
+
+  <!-- ── ONBOARDING ─────────────────────────────────────────────────── -->
+  <div class="screen" id="onboarding">
+    <div class="ob-blob1"></div>
+    <div class="ob-blob2"></div>
+    <div class="ob-slide active" id="ob0">
+      <div class="ob-illus" style="background:#E8F5E9; padding:20px;">
+        <img src="file:///C:/Users/ahiva/.gemini/antigravity-ide/brain/ab7da818-3373-406f-add0-1bb7a3576981/media__1784421078110.png" style="max-height:180px; width:auto;" alt="Swachta Logo" />
+      </div>
+      <h2 class="ob-headline">Every piece of trash.<br>Done in a dash.</h2>
+      <p class="ob-body">Instant scheduling, real-time tracking, and eco-friendly disposal — all in a few taps.</p>
+    </div>
+    <div class="ob-slide" id="ob1">
+      <div class="ob-illus" style="background:#F1F8E9; padding:20px;">
+        <img src="file:///C:/Users/ahiva/.gemini/antigravity-ide/brain/ab7da818-3373-406f-add0-1bb7a3576981/media__1784421078110.png" style="max-height:180px; width:auto;" alt="Swachta Logo" style="filter: hue-rotate(30deg);" />
+      </div>
+      <h2 class="ob-headline">Plant Trees &amp; Grow a better tomorrow!</h2>
+      <p class="ob-body">Your recycling funds real tree planting across India and the world.</p>
+    </div>
+    <div class="ob-slide" id="ob2">
+      <div class="ob-illus" style="background:#E0F2F1; padding:20px;">
+        <img src="file:///C:/Users/ahiva/.gemini/antigravity-ide/brain/ab7da818-3373-406f-add0-1bb7a3576981/media__1784421078110.png" style="max-height:180px; width:auto;" alt="Swachta Logo" />
+      </div>
+      <h2 class="ob-headline">India's first on-demand sanitation platform!</h2>
+      <p class="ob-body">Trained, insured sanitation workers arrive in 15 minutes — tracked live, paid fairly.</p>
+    </div>
+    <div class="ob-bottom">
+      <div class="ob-dots">
+        <div class="ob-dot active" id="dot0"></div>
+        <div class="ob-dot" id="dot1"></div>
+        <div class="ob-dot" id="dot2"></div>
+      </div>
+      <div class="ob-btn-row">
+        <button class="btn-secondary" style="flex:1;font-size:14px;" onclick="goTo('signup')">Skip</button>
+        <button class="btn-primary" style="flex:1;font-size:14px;" id="ob-next-btn">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SIGN UP ─────────────────────────────────────────────────────── -->
+  <div class="screen" id="signup" style="background:var(--surface-bg);">
+    <div class="auth-blob1"></div>
+    <div class="auth-blob2"></div>
+    <div class="scroll-area" style="padding-top:60px;">
+      <div class="auth-content">
+        <p class="auth-title">Create Account</p>
+        <p class="auth-sub">Join us in building a cleaner<br>and greener tomorrow</p>
+        <div class="input-group"><label>Full Name</label><input type="text" placeholder="Gracy" id="su-name"/></div>
+        <div class="input-group"><label>Email</label><input type="email" placeholder="you@example.com"/></div>
+        <div class="input-group"><label>Phone Number</label><input type="tel" placeholder="+91 00000 00000" id="su-phone"/></div>
+        <button class="btn-primary" onclick="goTo('otp')" style="margin-bottom:14px;">Send OTP</button>
+        <p class="auth-link-row">Already have an account? <a onclick="goTo('login')">Log in</a></p>
+        <div class="or-divider"><hr/><span>Or sign up with</span><hr/></div>
+        <button class="social-btn">
+          <span style="font-weight:900;color:#4285F4;font-size:18px;">G</span> Continue with Google
+        </button>
+        <button class="social-btn" style="background:#000;color:#fff;border-color:#000;">
+          🍎 Continue with Apple
+        </button>
+        <p style="font-size:11px;color:var(--text-secondary);text-align:center;margin-top:12px;">By signing up you agree to our Terms &amp; Privacy Policy</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LOGIN ─────────────────────────────────────────────────────── -->
+  <div class="screen" id="login" style="background:var(--surface-bg);">
+    <div class="auth-blob1"></div>
+    <div class="auth-blob2"></div>
+    <div style="padding:80px 24px 40px;">
+      <p class="auth-title">Welcome Back</p>
+      <p class="auth-sub">Login to continue your journey</p>
+      <div class="input-group"><label>Phone Number</label><input type="tel" placeholder="+91 00000 00000"/></div>
+      <button class="btn-primary" onclick="goTo('otp')" style="margin:16px 0 14px;">Continue</button>
+      <p class="auth-link-row">Don't have an account? <a onclick="goTo('signup')">Sign Up</a></p>
+    </div>
+  </div>
+
+  <!-- ── OTP ───────────────────────────────────────────────────────── -->
+  <div class="screen" id="otp" style="background:var(--surface-bg);padding:16px 28px;align-items:center;">
+    <div style="width:100%;margin-bottom:8px;">
+      <button class="back-btn" onclick="goTo('signup')">←</button>
+    </div>
+    <div class="otp-illus" style="animation: bounce-truck 2s ease-in-out infinite;">
+      <img src="file:///C:/Users/ahiva/.gemini/antigravity-ide/brain/ab7da818-3373-406f-add0-1bb7a3576981/media__1784421078110.png" style="width:120px; height:auto; display:block; margin:0 auto;" alt="Swachta Logo" />
+    </div>
+    <h2 class="otp-title">Enter OTP</h2>
+    <p class="otp-sub">We've sent a code to<br><strong>+91 00000 00000</strong></p>
+    <div class="otp-boxes">
+      <input class="otp-box" id="otp0" maxlength="1" type="tel" oninput="otpInput(0)" />
+      <input class="otp-box" id="otp1" maxlength="1" type="tel" oninput="otpInput(1)" />
+      <input class="otp-box" id="otp2" maxlength="1" type="tel" oninput="otpInput(2)" />
+      <input class="otp-box" id="otp3" maxlength="1" type="tel" oninput="otpInput(3)" />
+    </div>
+    <div class="otp-actions">
+      <button class="btn-primary" onclick="goTo('verified')">Verify OTP</button>
+      <p class="resend-timer" id="resend-text">Resend OTP in <span id="timer-val">30</span>s</p>
+    </div>
+  </div>
+
+  <!-- ── VERIFIED ──────────────────────────────────────────────────── -->
+  <div class="screen" id="verified">
+    <div class="verified-circles">
+      <div class="v-ring3"></div>
+      <div class="v-ring2"></div>
+      <div class="v-ring1"><span class="v-check">✓</span></div>
+    </div>
+    <h2 class="verified-title">Verified!</h2>
+    <p class="verified-sub">Your account has been verified<br>successfully</p>
+    <div class="verified-actions">
+      <button class="btn-primary" onclick="goTo('location')">Proceed to Dashboard</button>
+      <button class="btn-secondary" onclick="goTo('home')">Complete Profile Later</button>
+    </div>
+  </div>
+
+  <!-- ── LOCATION ──────────────────────────────────────────────────── -->
+  <div class="screen" id="location">
+    <div class="loc-icon">📍</div>
+    <h2 class="loc-title">Enable Location<br>Access</h2>
+    <p class="loc-sub">We need your location to show services available in your area and assign the nearest pickup crew.</p>
+    <div class="loc-actions">
+      <button class="btn-primary" onclick="goTo('home')">📍 Detect My Location</button>
+      <button class="btn-secondary" onclick="goTo('home')">Enter Location Manually</button>
+    </div>
+  </div>
+
+  <!-- ── HOME ──────────────────────────────────────────────────────── -->
+  <div class="screen" id="home">
+    <div class="home-topbar">
+      <span style="font-size:22px;cursor:pointer;">☰</span>
+      <div class="home-location">
+        <div class="loc-label">📍 Current Location</div>
+        <div class="loc-val">Sec - 76, Noida <span style="font-size:12px;">▾</span></div>
+      </div>
+      <div style="position:relative;cursor:pointer;">🔔<span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:var(--danger);border:1.5px solid var(--surface-bg);"></span></div>
+    </div>
+    <div class="home-search">
+      <span>🔍</span>
+      <input placeholder="Search for services..." readonly />
+      <button class="icon-btn" onclick="goTo('camera')">📷</button>
+    </div>
+
+    <div class="scroll-area">
+      <div style="padding:0 16px 16px;">
+        <div class="section-header">
+          <h3>Special Offers</h3>
+          <button class="see-more">See more</button>
+        </div>
+      </div>
+
+      <!-- Offer carousel -->
+      <div class="offer-banner" id="offer-banner" onclick="nextOffer()" style="background:linear-gradient(135deg,#158263,#0E6B50);">
+        <div class="offer-content">
+          <div class="offer-title" id="offer-title">30% OFF</div>
+          <div class="offer-sub" id="offer-sub">on your first booking</div>
+          <div class="offer-cta">Book Now →</div>
+        </div>
+        <div class="offer-emoji" id="offer-emoji">🌿</div>
+      </div>
+      <div class="offer-dots" style="margin-bottom:16px;">
+        <div class="offer-dot active" id="od0"></div>
+        <div class="offer-dot" id="od1"></div>
+        <div class="offer-dot" id="od2"></div>
+      </div>
+
+      <div style="padding:0 16px 12px;"><h3 style="font-size:17px;font-weight:700;">Our Services</h3></div>
+      <div class="services-grid" style="margin-bottom:16px;">
+        <div class="service-card pale" onclick="goTo('daily-garbage')">
+          <div class="service-emoji">🗑️</div>
+          <div class="service-name">Daily<br>Garbage</div>
+          <div class="service-sub">Regular daily waste</div>
+        </div>
+        <div class="service-card pale" onclick="goTo('scrap-items')">
+          <div class="service-emoji">♻️</div>
+          <div class="service-name">Scrap<br>Materials</div>
+          <div class="service-sub">Earn ₹₹₹</div>
+        </div>
+        <div class="service-card pale" onclick="goTo('large-dump')">
+          <div class="service-emoji">🚛</div>
+          <div class="service-name">Large<br>Dump</div>
+          <div class="service-sub">Bulk disposal</div>
+        </div>
+        <div class="service-card plant" onclick="goTo('recyclable-waste')">
+          <div style="font-size:14px;font-weight:900;color:var(--gold);margin-bottom:4px;">Planting made<br>Effortless!</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.7);margin-bottom:8px;">Plant a tree from home</div>
+          <button class="btn-sm">Plant Now →</button>
+        </div>
+      </div>
+
+      <div style="padding:0 16px 12px;">
+        <div class="section-header"><h3>Pickup Slots</h3></div>
+        <div class="slots" id="slots-row">
+          <div class="chip active" onclick="selectSlot(this)">6:00 am – 8:00 am</div>
+          <div class="chip" onclick="selectSlot(this)">10 am – 12 pm</div>
+          <div class="chip" onclick="selectSlot(this)">2:00 pm – 4:00 pm</div>
+          <div class="chip" onclick="selectSlot(this)">6:00 pm – 8:00 pm</div>
+        </div>
+      </div>
+
+      <div style="padding:0 16px 16px;">
+        <div class="refer-banner" onclick="openModal('referral-modal')">
+          <div class="refer-text">
+            <h3>REFER &amp; EARN</h3>
+            <p>Get 25 CC + ₹50 for every friend who joins!</p>
+            <button class="btn-sm" style="margin-top:4px;">SEND CODE →</button>
+          </div>
+          <div class="refer-emoji">🤝</div>
+        </div>
+      </div>
+
+      <div class="home-footer">
+        <p class="tagline">every piece <strong>RECYCLED,</strong></p>
+        <p class="tagline">every future <strong>PROTECTED.</strong></p>
+        <p class="brand-big">SWACHTA</p>
+        <p class="trust">Trusted by 200k+ Eco-Warriors</p>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <button class="nav-item active" onclick="goTo('home')">
+        <div class="nav-indicator">🏠</div>
+        <span class="nav-label">Home</span>
+      </button>
+      <button class="nav-item" onclick="goTo('impact')">
+        <span class="nav-icon">🌿</span>
+        <span class="nav-label">Impact</span>
+      </button>
+      <button class="nav-item" onclick="goTo('reels')">
+        <span class="nav-icon">▶️</span>
+        <span class="nav-label">Reels</span>
+      </button>
+      <button class="nav-item" onclick="goTo('bookings')">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Bookings</span>
+      </button>
+      <button class="nav-item" onclick="goTo('profile')">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Profile</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── DAILY GARBAGE ──────────────────────────────────────────────── -->
+  <div class="screen" id="daily-garbage" style="background:var(--surface-bg);">
+    <div class="service-header" style="background:linear-gradient(180deg,var(--brand-dark),var(--brand));">
+      <button class="back-btn" style="background:rgba(255,255,255,.15);color:#fff;" onclick="goTo('home')">←</button>
+      <h1>Daily Garbage</h1><span class="emoji">🗑️</span>
+    </div>
+    <div class="scroll-area" style="padding:16px;">
+      <div class="card"><p style="color:var(--text-secondary);font-size:14px;line-height:1.5;">Schedule regular daily waste pickup from your doorstep. Trained workers collect your household garbage and dispose of it responsibly.</p></div>
+      <br/>
+      <div class="detect-cta" onclick="goTo('camera')">
+        <div class="cam-icon">📷</div>
+        <h3>Click Image of Your Garbage</h3>
+        <p>Make sure the garbage is clearly visible for accurate detection.</p>
+      </div>
+      <br/>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-size:12px;color:var(--text-secondary);">One-time Pickup</div><div style="font-size:28px;font-weight:800;color:var(--brand);">₹99</div></div>
+          <div><div style="font-size:12px;color:var(--text-secondary);">Monthly Plan</div><div style="font-size:28px;font-weight:800;color:var(--brand);">₹799/mo</div></div>
+        </div>
+      </div>
+      <br/>
+      <h4 style="margin-bottom:10px;font-size:15px;font-weight:700;">Choose Pickup Slot</h4>
+      <div class="slots">
+        <div class="chip active" onclick="selectSlot(this)">6:00 am – 8:00 am</div>
+        <div class="chip" onclick="selectSlot(this)">10 am – 12 pm</div>
+        <div class="chip" onclick="selectSlot(this)">2:00 pm – 4:00 pm</div>
+        <div class="chip" onclick="selectSlot(this)">6:00 pm – 8:00 pm</div>
+      </div>
+    </div>
+    <div class="service-bottom-bar"><button class="btn-primary" onclick="goTo('booking-confirmed')">Book Service</button></div>
+  </div>
+
+  <!-- ── SCRAP ITEMS ────────────────────────────────────────────────── -->
+  <div class="screen" id="scrap-items" style="background:var(--surface-bg);">
+    <div class="service-header" style="background:linear-gradient(180deg,var(--brand-dark),var(--brand));">
+      <button class="back-btn" style="background:rgba(255,255,255,.15);color:#fff;" onclick="goTo('home')">←</button>
+      <h1>Scrap Items</h1><span class="emoji">♻️</span>
+    </div>
+    <div class="scroll-area" style="padding:16px;">
+      <!-- Location card -->
+      <div class="card" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--green-pale);display:flex;align-items:center;justify-content:center;">📍</div>
+          <div style="flex:1;"><div style="font-size:11px;color:var(--text-secondary);">Pickup Location</div><div style="font-size:13px;font-weight:600;">G-2129, Amrapali Silicon City, Sec 76, Noida - 201309</div></div>
+          <button class="icon-btn" style="font-size:16px;">✏️</button>
+        </div>
+      </div>
+      <!-- Detected materials -->
+      <div class="card" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--green-pale);display:flex;align-items:center;justify-content:center;">🗑️</div>
+          <div><div style="font-size:15px;font-weight:700;">Detected Materials</div><div style="font-size:12px;color:var(--text-secondary);">Review and remove anything incorrect.</div></div>
+        </div>
+        <div id="materials-list">
+          <div class="material-row" data-val="80"><div class="mat-icon">♻️</div><div class="mat-info"><div class="mat-name">Plastic Bottles</div><div class="mat-conf">95% confident</div></div><button class="mat-del" onclick="removeMat(this,80)">🗑️</button></div>
+          <div class="material-row" data-val="120"><div class="mat-icon">📦</div><div class="mat-info"><div class="mat-name">Cardboard</div><div class="mat-conf">92% confident</div></div><button class="mat-del" onclick="removeMat(this,120)">🗑️</button></div>
+          <div class="material-row" data-val="90"><div class="mat-icon">🥫</div><div class="mat-info"><div class="mat-name">Aluminum Cans</div><div class="mat-conf">88% confident</div></div><button class="mat-del" onclick="removeMat(this,90)">🗑️</button></div>
+          <div class="material-row" data-val="60"><div class="mat-icon">📰</div><div class="mat-info"><div class="mat-name">Newspapers</div><div class="mat-conf">85% confident</div></div><button class="mat-del" onclick="removeMat(this,60)">🗑️</button></div>
+          <div class="material-row" data-val="200"><div class="mat-icon">💻</div><div class="mat-info"><div class="mat-name">Electronics</div><div class="mat-conf">78% confident</div></div><button class="mat-del" onclick="removeMat(this,200)">🗑️</button></div>
+        </div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:10px 0;"/>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:14px;font-weight:600;">Total Estimated Value</span>
+          <span id="total-val" style="font-size:24px;font-weight:800;color:var(--brand);">₹550</span>
+        </div>
+      </div>
+      <div class="info-chip">
+        <div class="info-chip-icon">ℹ️</div>
+        <p>Not seeing something? <a onclick="">Add more</a></p>
+      </div>
+      <br/>
+      <h4 style="margin-bottom:10px;font-size:15px;font-weight:700;">Choose Pickup Slot</h4>
+      <div class="slots">
+        <div class="chip active" onclick="selectSlot(this)">6:00 am – 8:00 am</div>
+        <div class="chip" onclick="selectSlot(this)">10 am – 12 pm</div>
+        <div class="chip" onclick="selectSlot(this)">2:00 pm – 4:00 pm</div>
+      </div>
+    </div>
+    <div class="service-bottom-bar" style="background:var(--brand-dark);">
+      <button class="btn-primary" onclick="goTo('booking-confirmed')">Book Service</button>
+    </div>
+  </div>
+
+  <!-- ── LARGE DUMP ─────────────────────────────────────────────────── -->
+  <div class="screen" id="large-dump" style="background:var(--surface-bg);">
+    <div class="service-header" style="background:linear-gradient(180deg,#1B2838,#2C3E50);">
+      <button class="back-btn" style="background:rgba(255,255,255,.15);color:#fff;" onclick="goTo('home')">←</button>
+      <h1>Large Dump</h1><span class="emoji">🚛</span>
+    </div>
+    <div class="scroll-area" style="padding:16px;">
+      <div class="card"><p style="color:var(--text-secondary);font-size:14px;line-height:1.5;">Need to dispose of large quantities? Our heavy-duty fleet handles construction debris, bulk event waste, and large-scale cleanups.</p></div>
+      <br/>
+      <div class="detect-cta" onclick="goTo('camera')">
+        <div class="cam-icon">📷</div>
+        <h3>Click Image of Your Dump</h3>
+        <p>Clear photo helps us estimate volume and price accurately.</p>
+      </div>
+      <br/>
+      <div class="card">
+        <div style="font-size:12px;color:var(--text-secondary);">Estimated Price</div>
+        <div style="font-size:32px;font-weight:800;color:var(--brand);">From ₹499</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Final price depends on volume and distance. Our team will assess on arrival.</div>
+      </div>
+      <br/>
+      <h4 style="margin-bottom:10px;font-size:15px;font-weight:700;">Choose Pickup Slot</h4>
+      <div class="slots">
+        <div class="chip active" onclick="selectSlot(this)">6:00 am – 8:00 am</div>
+        <div class="chip" onclick="selectSlot(this)">10 am – 12 pm</div>
+        <div class="chip" onclick="selectSlot(this)">2:00 pm – 4:00 pm</div>
+        <div class="chip" onclick="selectSlot(this)">6:00 pm – 8:00 pm</div>
+      </div>
+    </div>
+    <div class="service-bottom-bar"><button class="btn-primary" onclick="goTo('booking-confirmed')">Book Service</button></div>
+  </div>
+
+  <!-- ── RECYCLABLE WASTE ───────────────────────────────────────────── -->
+  <div class="screen" id="recyclable-waste" style="background:var(--surface-bg);">
+    <div class="service-header" style="background:linear-gradient(180deg,#0D47A1,#1565C0);">
+      <button class="back-btn" style="background:rgba(255,255,255,.15);color:#fff;" onclick="goTo('home')">←</button>
+      <h1>Recyclable Waste</h1><span class="emoji">🔄</span>
+    </div>
+    <div class="scroll-area" style="padding:16px;">
+      <div class="card"><p style="color:var(--text-secondary);font-size:14px;line-height:1.5;">Separate and sell your recyclable waste — plastic bottles, glass, paper, and metal. Get a fair, transparent price before booking.</p></div>
+      <br/>
+      <div class="detect-cta" onclick="goTo('camera')">
+        <div class="cam-icon">📷</div>
+        <h3>Scan Your Recyclables</h3>
+        <p>AI detection gives you an instant price estimate.</p>
+      </div>
+      <br/>
+      <h4 style="margin-bottom:10px;font-size:15px;font-weight:700;">Choose Pickup Slot</h4>
+      <div class="slots">
+        <div class="chip active" onclick="selectSlot(this)">6:00 am – 8:00 am</div>
+        <div class="chip" onclick="selectSlot(this)">10 am – 12 pm</div>
+        <div class="chip" onclick="selectSlot(this)">2:00 pm – 4:00 pm</div>
+      </div>
+    </div>
+    <div class="service-bottom-bar"><button class="btn-primary" onclick="goTo('booking-confirmed')">Book Service</button></div>
+  </div>
+
+  <!-- ── CAMERA ─────────────────────────────────────────────────────── -->
+  <div class="screen" id="camera">
+    <div class="camera-view">
+      <div class="cam-corners"></div>
+      <div class="camera-center">📷</div>
+      <button class="back-btn" style="position:absolute;top:16px;left:16px;background:rgba(255,255,255,.2);color:#fff;" onclick="goTo('home')">←</button>
+      <span style="position:absolute;top:22px;right:16px;font-size:22px;cursor:pointer;">⚡</span>
+      <div style="position:absolute;top:56px;width:100%;text-align:center;color:#fff;font-weight:700;font-size:15px;">Click Image of Your Garbage</div>
+    </div>
+    <div class="camera-overlay">
+      <div class="info-chip">
+        <div class="info-chip-icon">ℹ️</div>
+        <p style="color:rgba(255,255,255,.8);">Make sure the garbage is clearly visible in the frame for accurate AI detection.</p>
+      </div>
+      <div class="cam-controls" style="margin-top:16px;">
+        <button class="cam-btn">🖼️</button>
+        <button class="cam-capture" onclick="goTo('scrap-items')"><div class="cam-capture-inner"></div></button>
+        <button class="cam-btn">🔄</button>
+      </div>
+      <p style="text-align:center;color:var(--brand);font-size:13px;margin-top:8px;cursor:pointer;" onclick="goTo('scrap-items')">→ View Detection Results</p>
+    </div>
+  </div>
+
+  <!-- ── BOOKING CONFIRMED ──────────────────────────────────────────── -->
+  <div class="screen" id="booking-confirmed">
+    <div class="confirmed-circles">
+      <div class="c-ring3"></div>
+      <div class="c-ring2"></div>
+      <div class="c-ring1"><span style="font-size:36px;color:#fff;">✓</span></div>
+    </div>
+    <h2 class="confirmed-title">Booking Confirmed!</h2>
+    <p class="confirmed-sub">Your waste collection service has been<br>successfully booked</p>
+    <div class="card" style="width:calc(100% - 48px);margin-bottom:20px;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:14px;">Booking Details</div>
+      <div class="booking-detail"><div class="booking-detail-icon">📅</div><div><div class="booking-detail-label">Service</div><div class="booking-detail-val">Daily Garbage - One-time Service</div></div></div>
+      <div class="booking-detail"><div class="booking-detail-icon">⏰</div><div><div class="booking-detail-label">Date & Time</div><div class="booking-detail-val">May 31, 2026 • 6:00 AM – 8:00 AM</div></div></div>
+      <div class="booking-detail"><div class="booking-detail-icon">📍</div><div><div class="booking-detail-label">Location</div><div class="booking-detail-val">Sec - 76, Noida</div></div></div>
+      <div class="booking-detail"><div class="booking-detail-icon">₹</div><div><div class="booking-detail-label">Amount Paid</div><div class="booking-detail-val" style="color:var(--brand);font-size:20px;">₹149</div></div></div>
+    </div>
+    <div style="width:calc(100% - 48px);display:flex;flex-direction:column;gap:10px;">
+      <button class="btn-secondary">⬇ Download Receipt</button>
+      <button class="btn-text" onclick="goTo('home')">🏠 Go to Home</button>
+    </div>
+  </div>
+
+  <!-- ── MY BOOKINGS ────────────────────────────────────────────────── -->
+  <div class="screen" id="bookings" style="background:var(--surface-bg);">
+    <div class="bookings-header">
+      <button class="back-btn" onclick="goTo('home')">←</button>
+      <div class="bookings-title"><h2>My Bookings</h2><p>Track your orders</p></div>
+      <div style="margin-left:auto;font-size:20px;cursor:pointer;">⚙️</div>
+    </div>
+    <div style="display:flex;gap:8px;padding:0 16px 12px;overflow-x:auto;" id="filter-row">
+      <div class="chip active" onclick="filterBookings('All',this)">All</div>
+      <div class="chip" onclick="filterBookings('Ongoing',this)">Ongoing</div>
+      <div class="chip" onclick="filterBookings('Completed',this)">Completed</div>
+      <div class="chip" onclick="filterBookings('Cancelled',this)">Cancelled</div>
+    </div>
+    <div class="scroll-area" style="padding:0 16px 16px;" id="bookings-list">
+      <div class="booking-card"><div><div class="booking-service">Daily Garbage - Instant</div><div class="booking-price">₹99</div></div><div class="booking-right"><span class="badge badge-completed">Completed</span><div class="booking-date">12 Jun 2025</div></div></div>
+      <div class="booking-card"><div><div class="booking-service">Large Dump</div><div class="booking-price">₹999</div></div><div class="booking-right"><span class="badge badge-cancelled">Cancelled</span><div class="booking-date">12 Jun 2025</div></div></div>
+      <div class="booking-card"><div><div class="booking-service">Scrap Material</div><div class="booking-price" style="color:var(--brand);">+ ₹1,240</div></div><div class="booking-right"><span class="badge badge-pending">Pending</span><div class="booking-date">12 Jun 2025</div></div></div>
+      <div class="booking-card"><div><div class="booking-service">Recyclable Waste</div><div class="booking-price">₹149</div></div><div class="booking-right"><span class="badge badge-ongoing">Ongoing</span><div class="booking-date">11 Jun 2025</div></div></div>
+    </div>
+    <div class="bottom-nav">
+      <button class="nav-item" onclick="goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+      <button class="nav-item" onclick="goTo('impact')"><span class="nav-icon">🌿</span><span class="nav-label">Impact</span></button>
+      <button class="nav-item" onclick="goTo('reels')"><span class="nav-icon">▶️</span><span class="nav-label">Reels</span></button>
+      <button class="nav-item active" onclick="goTo('bookings')"><div class="nav-indicator">📅</div><span class="nav-label">Bookings</span></button>
+      <button class="nav-item" onclick="goTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── IMPACT ─────────────────────────────────────────────────────── -->
+  <div class="screen" id="impact" style="background:var(--surface-bg);">
+    <div style="padding:12px 16px 8px;"><h2 style="font-size:22px;font-weight:800;">Impact</h2></div>
+    <div class="scroll-area" style="padding:0 16px 16px;">
+      <!-- Milestone card -->
+      <div style="background:linear-gradient(135deg,var(--brand-dark),#2E7D32);border-radius:20px;padding:20px;margin-bottom:12px;">
+        <div style="font-size:12px;color:rgba(255,255,255,.7);font-weight:600;margin-bottom:4px;">Current Milestone</div>
+        <div style="font-size:20px;font-weight:800;color:#fff;">Level 2 - Sapling 🌱</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:10px;">1240 / 2000 Impact Points</div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" id="impact-bar" style="width:0%"></div></div>
+        <div style="margin-top:8px;display:inline-block;background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:12px;color:#fff;">🏆 Top 8% of eco-conscious users</div>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="stat-card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:24px;">🌿</span><span style="font-size:12px;color:var(--text-secondary);">CO2 Prevented</span></div><div><span class="stat-big">42.8</span><span class="stat-unit"> kg</span></div><div class="stat-label">Equivalent to driving 170 km less</div></div>
+      <div class="stat-card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:24px;">🌳</span><span style="font-size:12px;color:var(--text-secondary);">Trees Supported</span></div><div><span class="stat-big">14</span><span class="stat-unit"> Trees</span></div><div class="stat-label">Active growth across 3 global initiatives</div></div>
+      <div class="stat-card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:24px;">♻️</span><span style="font-size:12px;color:var(--text-secondary);">Waste Recycled</span></div><div><span class="stat-big">124</span><span class="stat-unit"> L</span></div><div class="stat-label">Diverted from municipal landfills</div></div>
+
+      <!-- Recent activity -->
+      <div style="font-size:17px;font-weight:700;margin:16px 0 10px;">Recent Activity</div>
+      <div class="card" style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">♻️</span><div style="flex:1;"><div style="font-size:14px;font-weight:600;">EV Courier Delivery</div><div style="font-size:12px;color:var(--text-secondary);">Yesterday, 14:20</div></div><span style="font-size:14px;font-weight:700;color:var(--brand);">+45 pts</span></div></div>
+      <div class="card" style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">⚡</span><div style="flex:1;"><div style="font-size:14px;font-weight:600;">Scrap Sale Completed</div><div style="font-size:12px;color:var(--text-secondary);">Jan 10, 10:15</div></div><span style="font-size:14px;font-weight:700;color:var(--brand);">+35 pts</span></div></div>
+
+      <!-- Achievements -->
+      <div style="font-size:17px;font-weight:700;margin:16px 0 10px;">Achievements</div>
+      <div style="display:flex;gap:12px;">
+        <div class="achievement-badge"><div class="badge-circle">🏅</div><span class="badge-label">First Tree Planted</span></div>
+        <div class="achievement-badge"><div class="badge-circle">♻️</div><span class="badge-label">Recycling Champion</span></div>
+        <div class="achievement-badge"><div class="badge-circle">🌍</div><span class="badge-label">Green Traveller</span></div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <button class="nav-item" onclick="goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+      <button class="nav-item active" onclick="goTo('impact')"><div class="nav-indicator">🌿</div><span class="nav-label">Impact</span></button>
+      <button class="nav-item" onclick="goTo('reels')"><span class="nav-icon">▶️</span><span class="nav-label">Reels</span></button>
+      <button class="nav-item" onclick="goTo('bookings')"><span class="nav-icon">📅</span><span class="nav-label">Bookings</span></button>
+      <button class="nav-item" onclick="goTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── REELS ──────────────────────────────────────────────────────── -->
+  <div class="screen" id="reels">
+    <div class="reel-view">
+      <div class="reel-play">▶</div>
+      <div style="position:absolute;top:48px;left:16px;font-size:22px;font-weight:800;color:#fff;">Reels</div>
+      <div style="position:absolute;top:48px;right:16px;font-size:22px;color:#fff;cursor:pointer;">🔍</div>
+      <div class="reel-meta">
+        <h3>How to Segregate Waste at Home 🗂️</h3>
+        <p>@swachta_official</p>
+      </div>
+      <div class="reel-actions">
+        <div class="reel-action"><span>❤️</span><span>1.2k</span></div>
+        <div class="reel-action"><span>💬</span><span>48</span></div>
+        <div class="reel-action"><span>↗️</span><span>Share</span></div>
+        <div class="reel-action"><span>⬇️</span><span>Save</span></div>
+      </div>
+    </div>
+    <div class="bottom-nav" style="position:relative;z-index:10;">
+      <button class="nav-item" onclick="goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+      <button class="nav-item" onclick="goTo('impact')"><span class="nav-icon">🌿</span><span class="nav-label">Impact</span></button>
+      <button class="nav-item active" onclick="goTo('reels')"><div class="nav-indicator">▶️</div><span class="nav-label">Reels</span></button>
+      <button class="nav-item" onclick="goTo('bookings')"><span class="nav-icon">📅</span><span class="nav-label">Bookings</span></button>
+      <button class="nav-item" onclick="goTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── PROFILE ────────────────────────────────────────────────────── -->
+  <div class="screen" id="profile">
+    <div class="profile-header">
+      <div class="avatar">SY</div>
+      <div class="profile-name">Shivam Yadav</div>
+      <div class="profile-phone">+91 98765 43210</div>
+      <div class="profile-stats">
+        <div class="stat-chip"><div class="stat-chip-val">1240</div><div class="stat-chip-label">Impact Pts</div></div>
+        <div class="stat-chip"><div class="stat-chip-val">14</div><div class="stat-chip-label">Bookings</div></div>
+        <div class="stat-chip"><div class="stat-chip-val">Lvl 2</div><div class="stat-chip-label">Sapling</div></div>
+      </div>
+    </div>
+    <div class="scroll-area" style="padding:12px 16px;">
+      <div class="menu-item"><div class="menu-icon">👤</div><div class="menu-label">Personal Details</div><div class="menu-arrow">›</div></div>
+      <div class="menu-item"><div class="menu-icon">📍</div><div class="menu-label">Saved Addresses</div><div class="menu-arrow">›</div></div>
+      <div class="menu-item"><div class="menu-icon">🏆</div><div class="menu-label">Rewards &amp; Impact</div><div class="menu-arrow">›</div></div>
+      <div class="menu-item"><div class="menu-icon">💳</div><div class="menu-label">Payment Methods</div><div class="menu-arrow">›</div></div>
+      <div class="menu-item"><div class="menu-icon">🎧</div><div class="menu-label">Support</div><div class="menu-arrow">›</div></div>
+      <div class="menu-item"><div class="menu-icon">ℹ️</div><div class="menu-label">About Swachta</div><div class="menu-arrow">›</div></div>
+      <div class="menu-item"><div class="menu-icon">🔒</div><div class="menu-label">Account &amp; Security</div><div class="menu-arrow">›</div></div>
+      <div class="menu-item danger" onclick="goTo('signup')"><div class="menu-icon">🗑️</div><div class="menu-label">Delete Account</div><div class="menu-arrow">›</div></div>
+      <p style="text-align:center;font-size:12px;color:var(--text-secondary);margin-top:16px;">Swachta v1.0.0</p>
+    </div>
+    <div class="bottom-nav">
+      <button class="nav-item" onclick="goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+      <button class="nav-item" onclick="goTo('impact')"><span class="nav-icon">🌿</span><span class="nav-label">Impact</span></button>
+      <button class="nav-item" onclick="goTo('reels')"><span class="nav-icon">▶️</span><span class="nav-label">Reels</span></button>
+      <button class="nav-item" onclick="goTo('bookings')"><span class="nav-icon">📅</span><span class="nav-label">Bookings</span></button>
+      <button class="nav-item active" onclick="goTo('profile')"><div class="nav-indicator">👤</div><span class="nav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── MODALS ─────────────────────────────────────────────────────── -->
+  <div class="modal-overlay" id="referral-modal" onclick="closeModal('referral-modal')">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div style="text-align:center;">
+        <div style="font-size:40px;margin-bottom:8px;">🎉</div>
+        <div style="font-size:18px;font-weight:700;margin-bottom:16px;">Your Referral Code</div>
+        <div style="background:var(--green-pale);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;margin-bottom:8px;">
+          <div style="font-size:26px;font-weight:900;color:var(--brand-dark);letter-spacing:3px;">SHANTI2025</div>
+        </div>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Share this code &amp; earn 25 CC + ₹50 for each referral</p>
+        <button class="btn-primary" onclick="closeModal('referral-modal')" style="margin-bottom:10px;">📤 Share Invite Link</button>
+        <button class="btn-text" onclick="closeModal('referral-modal')">Copy Code</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State & navigation ────────────────────────────────────────────────
+let currentScreen = 'splash';
+let obPage = 0;
+const offerData = [
+  { title: '30% OFF', sub: 'on your first booking', bg: 'linear-gradient(135deg,#158263,#0E6B50)', emoji: '🌿' },
+  { title: 'Plant 5 Trees', sub: 'with ₹500+ booking', bg: 'linear-gradient(135deg,#2D8A5E,#1B382C)', emoji: '🌳' },
+  { title: 'Refer &amp; Get', sub: '25 CC + ₹50 wallet', bg: 'linear-gradient(135deg,#4A7C59,#2D5A3A)', emoji: '🤝' },
+];
+let offerIdx = 0;
+
+function goTo(screenId) {
+  document.getElementById(currentScreen)?.classList.remove('active');
+  const next = document.getElementById(screenId);
+  if (!next) return;
+  next.classList.add('active');
+  currentScreen = screenId;
+
+  // On-enter effects
+  if (screenId === 'impact') {
+    setTimeout(() => {
+      document.getElementById('impact-bar').style.width = '62%';
+    }, 150);
+  }
+  if (screenId === 'otp') {
+    startOtpTimer();
+    document.getElementById('otp0').focus();
+  }
+  if (screenId === 'onboarding') {
+    obPage = 0;
+    updateOb();
+  }
+}
+
+// ── Splash auto-advance ───────────────────────────────────────────────
+setTimeout(() => goTo('onboarding'), 2400);
+
+// ── Real clock ────────────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  let h = now.getHours(), m = now.getMinutes();
+  document.getElementById('time-display').textContent =
+    `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// ── Onboarding ────────────────────────────────────────────────────────
+function updateOb() {
+  document.querySelectorAll('.ob-slide').forEach((s,i) => {
+    s.classList.toggle('active', i === obPage);
+  });
+  document.querySelectorAll('.ob-dot').forEach((d,i) => {
+    d.classList.toggle('active', i === obPage);
+  });
+  document.getElementById('ob-next-btn').textContent = obPage < 2 ? 'Next →' : 'Get Started';
+}
+
+document.getElementById('ob-next-btn').onclick = () => {
+  if (obPage < 2) { obPage++; updateOb(); }
+  else goTo('signup');
+};
+
+// ── Offers carousel ───────────────────────────────────────────────────
+function nextOffer() {
+  offerIdx = (offerIdx + 1) % offerData.length;
+  const o = offerData[offerIdx];
+  const banner = document.getElementById('offer-banner');
+  banner.style.background = o.bg;
+  document.getElementById('offer-title').innerHTML = o.title;
+  document.getElementById('offer-sub').textContent = o.sub;
+  document.getElementById('offer-emoji').textContent = o.emoji;
+  document.querySelectorAll('.offer-dot').forEach((d,i) => d.classList.toggle('active', i===offerIdx));
+}
+setInterval(nextOffer, 3000);
+
+// ── Slot chips ────────────────────────────────────────────────────────
+function selectSlot(el) {
+  const parent = el.closest('.slots') || el.parentElement;
+  parent.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── OTP input ─────────────────────────────────────────────────────────
+function otpInput(i) {
+  const box = document.getElementById('otp'+i);
+  if (box.value.length === 1 && i < 3) {
+    document.getElementById('otp'+(i+1)).focus();
+  }
+  box.classList.toggle('filled', box.value.length > 0);
+}
+
+let timerInterval;
+function startOtpTimer() {
+  clearInterval(timerInterval);
+  let t = 30;
+  const val = document.getElementById('timer-val');
+  const txt = document.getElementById('resend-text');
+  if (val) val.textContent = t;
+  timerInterval = setInterval(() => {
+    t--;
+    if (val) val.textContent = t;
+    if (t <= 0) {
+      clearInterval(timerInterval);
+      if (txt) txt.innerHTML = '<a style="color:var(--brand);cursor:pointer;text-decoration:underline;">Resend OTP</a>';
+    }
+  }, 1000);
+}
+
+// ── Scrap materials ───────────────────────────────────────────────────
+let totalVal = 550;
+function removeMat(btn, val) {
+  const row = btn.closest('.material-row');
+  row.style.transform = 'translateX(100%)';
+  row.style.opacity = '0';
+  row.style.transition = 'all 0.3s';
+  setTimeout(() => row.remove(), 300);
+  totalVal -= val;
+  document.getElementById('total-val').textContent = '₹' + totalVal;
+}
+
+// ── Bookings filter ───────────────────────────────────────────────────
+function filterBookings(filter, el) {
+  document.querySelectorAll('#filter-row .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const all = document.querySelectorAll('#bookings-list .booking-card');
+  all.forEach(card => {
+    if (filter === 'All') { card.style.display = ''; return; }
+    const badge = card.querySelector('.badge');
+    const show = badge && badge.textContent === filter;
+    card.style.display = show ? '' : 'none';
+  });
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+</script>
+</body>
+</html>

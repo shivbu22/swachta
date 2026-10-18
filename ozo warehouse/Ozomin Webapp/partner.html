@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Partner with Ozomin — Municipalities, Companies & NGOs</title>
+<meta name="description" content="Partner with Ozomin to bring India's most advanced on-demand sanitation infrastructure to your city, colony, or organization. SBM-compliant, worker-first, revenue-positive."/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟢</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/shared.css"/>
+<style>
+/* PARTNER-SPECIFIC */
+.partner-types {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 56px;
+}
+.partner-type-card {
+  background: #fff; border: 1.5px solid var(--oz-border);
+  border-radius: 24px; padding: 40px 32px;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.partner-type-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 4px; background: var(--oz-light);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s;
+}
+.partner-type-card:hover { border-color: var(--oz-light); transform: translateY(-4px); }
+.partner-type-card:hover::before { transform: scaleX(1); }
+.partner-icon {
+  width: 60px; height: 60px; border-radius: 16px;
+  background: var(--oz-pale); display: flex;
+  align-items: center; justify-content: center;
+  font-size: 28px; margin-bottom: 24px;
+}
+.partner-type-card h3 {
+  font-size: 20px; font-weight: 700;
+  margin-bottom: 12px; letter-spacing: -0.3px;
+}
+.partner-type-card p {
+  font-size: 14px; color: var(--oz-gray);
+  line-height: 1.7; margin-bottom: 20px;
+}
+.partner-features {
+  margin-top: 16px; padding-top: 16px;
+  border-top: 1px solid var(--oz-border);
+}
+.partner-feat {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--oz-dark);
+  padding: 6px 0;
+}
+.partner-feat .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--oz-light); flex-shrink: 0;
+}
+
+/* WHAT WE PROVIDE */
+.provide-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 0; margin-top: 56px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px; overflow: hidden;
+}
+.provide-card {
+  padding: 40px 36px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.3s;
+}
+.provide-card:nth-child(2n) { border-right: none; }
+.provide-card:nth-child(n+5) { border-bottom: none; }
+.provide-card:hover { background: rgba(82,183,136,0.06); }
+.provide-card .emoji { font-size: 28px; margin-bottom: 16px; }
+.provide-card h4 {
+  font-size: 17px; font-weight: 700; color: #fff;
+  margin-bottom: 8px;
+}
+.provide-card p {
+  font-size: 14px; color: rgba(255,255,255,0.45);
+  line-height: 1.7;
+}
+
+/* CASE STUDY */
+.case-study {
+  background: var(--oz-cream); border-radius: 28px;
+  padding: 48px; margin-top: 56px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 48px; align-items: center;
+}
+.case-study-content h3 {
+  font-size: 24px; font-weight: 800;
+  margin-bottom: 16px; letter-spacing: -0.5px;
+}
+.case-study-content p {
+  font-size: 15px; color: var(--oz-gray);
+  line-height: 1.8; margin-bottom: 16px;
+}
+.case-metrics {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.case-metric {
+  background: #fff; border-radius: 16px;
+  padding: 20px; text-align: center;
+  border: 1px solid var(--oz-border);
+}
+.case-metric-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px; font-weight: 800;
+  color: var(--oz-green); line-height: 1;
+}
+.case-metric-label {
+  font-size: 12px; color: var(--oz-gray); margin-top: 6px;
+}
+
+/* PARTNER FORM */
+.partner-form-section {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: start;
+}
+.partner-form-info h2 {
+  font-size: 32px; font-weight: 800;
+  letter-spacing: -1px; margin-bottom: 16px; line-height: 1.15;
+}
+.partner-form-info p {
+  font-size: 16px; color: var(--oz-gray);
+  line-height: 1.7; margin-bottom: 20px;
+}
+.trust-badges {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px;
+}
+.trust-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--oz-cream); border: 1px solid var(--oz-border);
+  padding: 8px 16px; border-radius: 100px;
+  font-size: 13px; font-weight: 500; color: var(--oz-dark);
+}
+.partner-form {
+  background: #fff; border: 1px solid var(--oz-border);
+  border-radius: 24px; padding: 40px;
+}
+.partner-form h3 {
+  font-size: 20px; font-weight: 700; margin-bottom: 24px;
+}
+
+/* CTA BAND */
+.cta-band {
+  background: var(--oz-green); padding: 60px 40px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 32px; flex-wrap: wrap;
+}
+.cta-band h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800; color: #fff;
+  letter-spacing: -1px; max-width: 500px; line-height: 1.2;
+}
+.cta-band-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+@media (max-width: 768px) {
+  .partner-types { grid-template-columns: 1fr; }
+  .provide-grid { grid-template-columns: 1fr; }
+  .provide-card { border-right: none !important; }
+  .case-study { grid-template-columns: 1fr; }
+  .partner-form-section { grid-template-columns: 1fr; gap: 40px; }
+  .cta-band { padding: 40px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="ozomin_website.html">
+    <div class="nav-logo-dot"></div>
+    Ozomin
+  </a>
+  <div class="nav-links">
+    <a href="ozomin_website.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="partner.html" class="active">Partner</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="nav-cta" href="careers.html">Join as Worker</a>
+</nav>
+<div class="mobile-menu">
+  <a href="ozomin_website.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="partner.html">Partner</a>
+  <a href="careers.html">Careers</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb animate-up">
+      <a href="ozomin_website.html">Home</a>
+      <span class="sep">›</span>
+      <span>Partner</span>
+    </div>
+    <div class="section-label animate-up-d1">For municipalities & organizations</div>
+    <h1 class="page-hero-title animate-up-d2">Bring Ozomin to<br/><span>your city.</span></h1>
+    <p class="page-hero-sub animate-up-d3">We deploy trained workers, warehouses, and a full digital stack in your jurisdiction. You get SBM-compliant reports, live tracking, and zero waste going to landfill unsegregated.</p>
+    <div class="page-hero-actions animate-up-d4">
+      <a class="btn-primary" href="#partner-form">Start a Conversation</a>
+      <a class="btn-outline-white" href="pricing.html">View Pricing</a>
+    </div>
+  </div>
+</div>
+
+<!-- PARTNER TYPES -->
+<section class="page-section">
+  <div class="section-label">Who we work with</div>
+  <h2 class="section-title">Three ways to partner</h2>
+  <p class="section-sub">Whether you govern a city, manage a colony, or run a CSR programme — we have a deployment model for you.</p>
+
+  <div class="partner-types reveal">
+    <div class="partner-type-card">
+      <div class="partner-icon">🏛️</div>
+      <h3>Municipalities & ULBs</h3>
+      <p>Full-stack sanitation operations for your city — 100+ workers, 3 warehouses, automated SBM reporting, real-time GPS fleet tracking.</p>
+      <div class="partner-features">
+        <div class="partner-feat"><div class="dot"></div> Custom SLA & KPI targets</div>
+        <div class="partner-feat"><div class="dot"></div> Swachh Bharat auto-reports</div>
+        <div class="partner-feat"><div class="dot"></div> Dedicated account manager</div>
+        <div class="partner-feat"><div class="dot"></div> Ward-level analytics dashboard</div>
+        <div class="partner-feat"><div class="dot"></div> Worker recruitment & training</div>
+      </div>
+    </div>
+    <div class="partner-type-card">
+      <div class="partner-icon">🏘️</div>
+      <h3>Colonies & RWAs</h3>
+      <p>Dedicated workers for your society — daily sweeping, weekly drain checks, on-demand garbage collection, and recycling revenue sharing.</p>
+      <div class="partner-features">
+        <div class="partner-feat"><div class="dot"></div> Dedicated assigned workers</div>
+        <div class="partner-feat"><div class="dot"></div> Daily scheduled sweeping</div>
+        <div class="partner-feat"><div class="dot"></div> Monthly performance reports</div>
+        <div class="partner-feat"><div class="dot"></div> On-demand emergency response</div>
+        <div class="partner-feat"><div class="dot"></div> Starts at ₹8,999/month</div>
+      </div>
+    </div>
+    <div class="partner-type-card">
+      <div class="partner-icon">🏢</div>
+      <h3>Corporates & NGOs</h3>
+      <p>CSR-aligned sanitation projects. Sponsor worker salaries, fund warehouse buildout, or adopt a cluster for comprehensive waste management.</p>
+      <div class="partner-features">
+        <div class="partner-feat"><div class="dot"></div> CSR Section 135 compliant</div>
+        <div class="partner-feat"><div class="dot"></div> Impact dashboards & reports</div>
+        <div class="partner-feat"><div class="dot"></div> Brand co-visibility on uniforms</div>
+        <div class="partner-feat"><div class="dot"></div> Adopt-a-cluster programme</div>
+        <div class="partner-feat"><div class="dot"></div> Tax certificates provided</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE PROVIDE -->
+<section class="page-section bg-dark">
+  <div class="section-label" style="color:var(--oz-light)">What we deploy</div>
+  <h2 class="section-title" style="color:#fff">You don't just get workers.<br/>You get a system.</h2>
+  <p class="section-sub" style="color:rgba(255,255,255,0.5)">Every partnership includes the full Ozomin operating stack — because workers without systems deliver nothing reliable.</p>
+
+  <div class="provide-grid reveal">
+    <div class="provide-card">
+      <div class="emoji">👷</div>
+      <h4>Trained Workforce</h4>
+      <p>Aadhaar-verified, 14-day trained, PPE-equipped workers stationed in hyperlocal 500m clusters. No freelancers.</p>
+    </div>
+    <div class="provide-card">
+      <div class="emoji">📱</div>
+      <h4>4-App Digital Stack</h4>
+      <p>Worker App, Request App, Warehouse App, Admin Dashboard — fully integrated with GPS tracking, OTP verification, and waste logging.</p>
+    </div>
+    <div class="provide-card">
+      <div class="emoji">🏭</div>
+      <h4>OZ Warehouses</h4>
+      <p>Segregation warehouses set up in your jurisdiction. Staff for weighing, grading, and selling recyclables to verified buyers.</p>
+    </div>
+    <div class="provide-card">
+      <div class="emoji">📊</div>
+      <h4>Analytics & Reporting</h4>
+      <p>Real-time dashboards showing jobs completed, waste collected, recycling revenue, worker performance, and SBM compliance metrics.</p>
+    </div>
+    <div class="provide-card">
+      <div class="emoji">🛡️</div>
+      <h4>Kavach Safety System</h4>
+      <p>AI-powered worker monitoring, hardware SOS triggers, buddy pairing, and auto-alerts for field officers during high-risk jobs.</p>
+    </div>
+    <div class="provide-card">
+      <div class="emoji">♻️</div>
+      <h4>Recycler Network</h4>
+      <p>Pre-negotiated rates with verified recyclers for PET, metal, cardboard, glass. Revenue shared transparently with revenue going towards operations and worker bonuses.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<section class="page-section">
+  <div class="section-label">Proof of concept</div>
+  <h2 class="section-title">Ghaziabad — live since Q1 2026</h2>
+  <p class="section-sub">Our first city deployment is already running. Here's what it looks like in production.</p>
+
+  <div class="case-study reveal">
+    <div class="case-study-content">
+      <h3>Full-stack deployment across 3 zones</h3>
+      <p>Ghaziabad was our proving ground — 100+ workers deployed across nano-clusters covering Sectors 4–16, Loni industrial belt, and Dasna residential blocks. Three OZ warehouses operational, processing 2+ tonnes of recyclable waste daily.</p>
+      <p>The municipality signed on for SBM-compliant reporting. Colony RWAs adopted dedicated worker plans. Individual citizens booked 1,200+ jobs in the first 90 days — with a 4.7/5.0 average rating.</p>
+    </div>
+    <div class="case-metrics">
+      <div class="case-metric">
+        <div class="case-metric-val" data-count="100">0</div>
+        <div class="case-metric-label">Active workers</div>
+      </div>
+      <div class="case-metric">
+        <div class="case-metric-val" data-count="3">0</div>
+        <div class="case-metric-label">OZ Warehouses</div>
+      </div>
+      <div class="case-metric">
+        <div class="case-metric-val">4.7</div>
+        <div class="case-metric-label">Avg. user rating</div>
+      </div>
+      <div class="case-metric">
+        <div class="case-metric-val" data-count="1200">0</div>
+        <div class="case-metric-label">Jobs in 90 days</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER FORM -->
+<section class="page-section bg-cream" id="partner-form">
+  <div class="partner-form-section">
+    <div class="partner-form-info reveal">
+      <div class="section-label">Let's talk</div>
+      <h2>Tell us about your city. We'll design the deployment.</h2>
+      <p>Every partnership starts with a 30-minute call. We learn your geography, waste volume, existing workforce, and regulatory requirements — then propose a custom Ozomin deployment plan within 7 days.</p>
+      <div class="trust-badges">
+        <div class="trust-badge">🏛️ Government-ready</div>
+        <div class="trust-badge">📋 SBM-compliant</div>
+        <div class="trust-badge">🛡️ Aadhaar-verified workforce</div>
+        <div class="trust-badge">♻️ Zero landfill policy</div>
+      </div>
+    </div>
+    <div class="partner-form reveal">
+      <h3>Partnership Inquiry</h3>
+      <form data-validate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Your Name *</label>
+            <input class="form-input" type="text" placeholder="Full name" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Designation *</label>
+            <input class="form-input" type="text" placeholder="e.g. Municipal Commissioner" required/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Organization *</label>
+            <input class="form-input" type="text" placeholder="Organization name" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type *</label>
+            <select class="form-select" required>
+              <option value="">Select type</option>
+              <option>Municipality / ULB</option>
+              <option>Colony / RWA</option>
+              <option>Corporate CSR</option>
+              <option>NGO</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Email *</label>
+            <input class="form-input" type="email" placeholder="you@organization.gov.in" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone *</label>
+            <input class="form-input" type="tel" placeholder="+91 98765 43210" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">City / Area</label>
+          <input class="form-input" type="text" placeholder="Which city or area do you want Ozomin in?"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tell us more</label>
+          <textarea class="form-textarea" placeholder="Brief about your requirements — coverage area, estimated worker count, existing infrastructure, timeline..."></textarea>
+        </div>
+        <button type="submit" class="btn-green" style="width:100%; text-align:center; margin-top:8px;">Submit Partnership Inquiry →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Prefer a call? Our partnerships team responds within 24 hours.</h2>
+  <div class="cta-band-actions">
+    <a class="btn-primary" href="contact.html">Contact Us</a>
+    <a class="btn-outline-white" href="about.html">About Ozomin</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="footer-logo" href="ozomin_website.html">
+        <div class="footer-logo-dot"></div>
+        Ozomin
+      </a>
+      <div class="footer-tagline">India's first on-demand sanitation platform. Every kilo of waste collected is a kilo that pays.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <a href="about.html">About</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="careers.html">Join as Worker</a>
+      <a href="partner.html">Partner</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="#">Worker App</a>
+      <a href="#">Request App</a>
+      <a href="#">Admin Dashboard</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-text">© 2026 Ozomin. Maestroedge Solutions Pvt. Ltd. · Ghaziabad, UP</div>
+    <div class="footer-swachh">Aligned with Swachh Bharat Mission</div>
+  </div>
+</footer>
+
+<script src="js/shared.js"></script>
+</body>
+</html>

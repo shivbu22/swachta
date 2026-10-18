@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Swachhta",
+    "slug": "swachta-requestor",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1D4E1A"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "co.swachta.requestor",
+      "buildNumber": "1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1D4E1A"
+      },
+      "package": "co.swachta.requestor",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_FINE_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "swachta-requestor"
+      },
+      "apiBaseUrl": "https://api.swachta.co/api/v1"
+    },
+    "plugins": []
+  }
+}

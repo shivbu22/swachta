@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ozomins App — Book a Service</title>
+  <meta name="description" content="Book on-demand sanitation services. Real-time tracking, verified workers, instant response." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/app.css" />
+</head>
+
+<body>
+<div class="app-root">
+
+  <!-- ═══════════════════════════════════
+       PHONE FRAME (Left / Mobile View)
+  ═══════════════════════════════════ -->
+  <div class="phone-frame">
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span>9:41</span>
+      <div style="display:flex;gap:6px;align-items:center;font-size:0.7rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+      </div>
+    </div>
+
+    <!-- App Header -->
+    <div class="app-header">
+      <div class="app-header__row">
+        <div class="app-header__location" id="location-btn">
+          <span class="app-header__location-pin">📍</span>
+          <div>
+            <div style="font-size:0.7rem;color:var(--text-muted);font-weight:500;">Delivering to</div>
+            <div style="font-size:0.88rem;font-weight:700;color:var(--text-primary);">Koramangala, BLR ▾</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="app-header__notifs" id="notifs-btn">
+            🔔
+            <div class="app-header__badge">3</div>
+          </div>
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#00C853,#00E676);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;font-size:0.85rem;cursor:pointer;">A</div>
+        </div>
+      </div>
+      <div class="app-search-bar" id="search-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>What do you need today?</span>
+      </div>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="app-scroll" id="app-scroll">
+
+      <!-- Live Workers -->
+      <div class="live-bar" id="live-bar">
+        <span style="width:8px;height:8px;background:var(--eco-green);border-radius:50%;flex-shrink:0;animation:pulse-dot 1.5s ease-in-out infinite;"></span>
+        <span>52 workers near you · Avg 5 min response</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <!-- Promo Banner -->
+      <div class="promo-banner" id="promo-banner">
+        <div>
+          <div class="promo-banner__title">🎉 First 3 bookings FREE</div>
+          <div class="promo-banner__sub">No credit card needed · Cancel anytime</div>
+        </div>
+        <button class="btn btn-primary btn-sm" id="promo-claim-btn">Claim</button>
+      </div>
+
+      <!-- Service Categories -->
+      <div class="app-section">
+        <div class="app-section__head">
+          <span class="app-section__title">Services</span>
+          <span class="app-section__link" id="all-services-link">See all</span>
+        </div>
+        <div class="service-cats" id="service-cats">
+          <div class="service-cat active" data-service="cleaning" id="cat-cleaning">
+            <div class="service-cat__icon">🧹</div>
+            <span class="service-cat__label">Cleaning</span>
+          </div>
+          <div class="service-cat" data-service="garbage" id="cat-garbage">
+            <div class="service-cat__icon">🗑️</div>
+            <span class="service-cat__label">Garbage</span>
+          </div>
+          <div class="service-cat" data-service="recycling" id="cat-recycling">
+            <div class="service-cat__icon">♻️</div>
+            <span class="service-cat__label">Recycling</span>
+          </div>
+          <div class="service-cat" data-service="transport" id="cat-transport">
+            <div class="service-cat__icon">🚛</div>
+            <span class="service-cat__label">Transport</span>
+          </div>
+          <div class="service-cat" data-service="emergency" id="cat-emergency">
+            <div class="service-cat__icon">🚨</div>
+            <span class="service-cat__label">Emergency</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Job Tracker (hidden by default) -->
+      <div class="tracker-card" id="tracker-card">
+        <div class="tracker-card__header">
+          <div class="tracker-card__worker">
+            <div style="width:40px;height:40px;background:linear-gradient(135deg,#00C853,#00E676);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;">R</div>
+            <div>
+              <div style="font-weight:700;font-size:0.9rem;">Rajan Kumar</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">⭐ 4.9 · Cleaning Expert</div>
+            </div>
+          </div>
+          <div class="tracker-card__eta" id="tracker-eta">🚶 2 min away</div>
+        </div>
+        <div style="display:flex;gap:16px;">
+          <button class="btn btn-outline btn-sm" style="flex:1;" id="call-worker-btn">📞 Call</button>
+          <button class="btn btn-ghost btn-sm" style="flex:1;" id="cancel-job-btn">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Nearby Workers -->
+      <div class="app-section" id="workers-section">
+        <div class="app-section__head">
+          <span class="app-section__title">Nearby Workers</span>
+          <span class="app-section__link" id="map-view-link">Map view</span>
+        </div>
+        <div class="worker-cards" id="worker-cards">
+          <!-- Worker 1 -->
+          <div class="worker-card" data-worker="rajan" id="worker-rajan">
+            <div class="worker-card__avatar" style="background:linear-gradient(135deg,#00C853,#00E676);">
+              R
+              <div class="worker-card__online"></div>
+            </div>
+            <div class="worker-card__body">
+              <div class="worker-card__name">Rajan Kumar</div>
+              <div class="worker-card__skills">Cleaning · Garbage</div>
+              <div class="worker-card__rating">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#FFD600"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                4.9 · 312 jobs
+              </div>
+            </div>
+            <div class="worker-card__right">
+              <div class="worker-card__dist">0.4 km</div>
+              <div class="worker-card__eta">~5 min</div>
+              <div class="worker-card__price">₹120/hr</div>
+            </div>
+          </div>
+
+          <!-- Worker 2 -->
+          <div class="worker-card" data-worker="priya" id="worker-priya">
+            <div class="worker-card__avatar" style="background:linear-gradient(135deg,#7C4DFF,#b388ff);">
+              P
+              <div class="worker-card__online"></div>
+            </div>
+            <div class="worker-card__body">
+              <div class="worker-card__name">Priya Devi</div>
+              <div class="worker-card__skills">Recycling · Garbage</div>
+              <div class="worker-card__rating">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#FFD600"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                4.8 · 219 jobs
+              </div>
+            </div>
+            <div class="worker-card__right">
+              <div class="worker-card__dist">0.6 km</div>
+              <div class="worker-card__eta">~7 min</div>
+              <div class="worker-card__price">₹100/hr</div>
+            </div>
+          </div>
+
+          <!-- Worker 3 -->
+          <div class="worker-card" data-worker="suresh" id="worker-suresh">
+            <div class="worker-card__avatar" style="background:linear-gradient(135deg,#FF6D00,#ffab40);">
+              S
+              <div class="worker-card__online"></div>
+            </div>
+            <div class="worker-card__body">
+              <div class="worker-card__name">Suresh Babu</div>
+              <div class="worker-card__skills">Transport · Emergency</div>
+              <div class="worker-card__rating">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#FFD600"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                4.7 · 445 jobs
+              </div>
+            </div>
+            <div class="worker-card__right">
+              <div class="worker-card__dist">1.1 km</div>
+              <div class="worker-card__eta">~12 min</div>
+              <div class="worker-card__price">₹180/hr</div>
+            </div>
+          </div>
+
+          <!-- Worker 4 -->
+          <div class="worker-card" data-worker="meena" id="worker-meena">
+            <div class="worker-card__avatar" style="background:linear-gradient(135deg,#00B0FF,#80D8FF);">
+              M
+              <div class="worker-card__online"></div>
+            </div>
+            <div class="worker-card__body">
+              <div class="worker-card__name">Meena Krishnan</div>
+              <div class="worker-card__skills">Deep Cleaning · Office</div>
+              <div class="worker-card__rating">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#FFD600"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                5.0 · 89 jobs
+              </div>
+            </div>
+            <div class="worker-card__right">
+              <div class="worker-card__dist">1.4 km</div>
+              <div class="worker-card__eta">~15 min</div>
+              <div class="worker-card__price">₹150/hr</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div style="background:var(--eco-card);border:1px solid var(--eco-border);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-5);">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:var(--space-3);">Your Eco Impact</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3);text-align:center;">
+          <div>
+            <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--eco-green);">7</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);">Services</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--eco-green);">12kg</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);">Recycled</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--eco-green);">₹480</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);">Earned</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+      <div class="bottom-nav__item bottom-nav__item--active" id="nav-home">
+        <div class="bottom-nav__icon">🏠</div>
+        <span>Home</span>
+      </div>
+      <div class="bottom-nav__item" id="nav-track">
+        <div class="bottom-nav__icon">📍</div>
+        <span>Track</span>
+      </div>
+      <div class="bottom-nav__item bottom-nav__center" id="nav-book">
+        <div class="bottom-nav__fab">➕</div>
+        <span style="font-size:0.6rem;color:var(--eco-green);">Book</span>
+      </div>
+      <div class="bottom-nav__item" id="nav-history">
+        <div class="bottom-nav__icon">📋</div>
+        <span>History</span>
+      </div>
+      <div class="bottom-nav__item" id="nav-profile">
+        <div class="bottom-nav__icon">👤</div>
+        <span>Profile</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       APP PANEL (Right Side — Desktop)
+  ═══════════════════════════════════ -->
+  <div class="app-panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-header__title" id="panel-title">Book a Service</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);">Fill in the details below</div>
+      </div>
+      <a href="index.html" class="btn btn-ghost btn-sm" id="back-home-btn">← Back to Home</a>
+    </div>
+
+    <div class="panel-body">
+
+      <!-- Service Type Picker -->
+      <div>
+        <div class="form-label" style="margin-bottom:var(--space-3);">Select Service Type</div>
+        <div class="service-picker" id="panel-service-picker">
+          <div class="service-pick active" data-service="cleaning" id="pick-cleaning">
+            <div class="service-pick__icon">🧹</div>
+            <div class="service-pick__label">Cleaning</div>
+          </div>
+          <div class="service-pick" data-service="garbage" id="pick-garbage">
+            <div class="service-pick__icon">🗑️</div>
+            <div class="service-pick__label">Garbage</div>
+          </div>
+          <div class="service-pick" data-service="recycling" id="pick-recycling">
+            <div class="service-pick__icon">♻️</div>
+            <div class="service-pick__label">Recycling</div>
+          </div>
+          <div class="service-pick" data-service="transport" id="pick-transport">
+            <div class="service-pick__icon">🚛</div>
+            <div class="service-pick__label">Transport</div>
+          </div>
+          <div class="service-pick" data-service="emergency" id="pick-emergency">
+            <div class="service-pick__icon">🚨</div>
+            <div class="service-pick__label">Emergency</div>
+          </div>
+          <div class="service-pick" data-service="subscription" id="pick-subscription">
+            <div class="service-pick__icon">📅</div>
+            <div class="service-pick__label">Subscribe</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking Form -->
+      <div class="booking-form">
+        <div class="form-field">
+          <label class="form-label" for="booking-address">Your Address</label>
+          <input type="text" id="booking-address" class="form-input" placeholder="Enter your full address..." value="12/3, HSR Layout, Bengaluru 560102" />
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="booking-desc">Describe the Job</label>
+          <textarea id="booking-desc" class="form-input" placeholder="Describe what needs to be done (e.g., 2BHK flat, dusty rooms, last cleaned 3 weeks ago)..."></textarea>
+        </div>
+
+        <!-- Photo Upload -->
+        <div class="form-field">
+          <div class="form-label">Upload Photo (optional)</div>
+          <div class="photo-upload" id="photo-upload-btn">
+            <div class="photo-upload__icon">📷</div>
+            <div class="photo-upload__text">Tap to upload before photo</div>
+            <div style="font-size:0.72rem;color:var(--text-muted);">Helps workers prepare better</div>
+          </div>
+        </div>
+
+        <!-- Scheduled Time -->
+        <div class="form-field">
+          <label class="form-label" for="booking-time">When?</label>
+          <select id="booking-time" class="form-input">
+            <option value="now">⚡ Right Now (ASAP)</option>
+            <option value="30min">In 30 minutes</option>
+            <option value="1hr">In 1 hour</option>
+            <option value="today">Today afternoon</option>
+            <option value="tomorrow">Tomorrow</option>
+            <option value="custom">Pick a date & time</option>
+          </select>
+        </div>
+
+        <!-- Price Estimate -->
+        <div class="price-estimate" id="price-estimate">
+          <div>
+            <div class="price-estimate__label">Estimated Cost</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Based on service + duration</div>
+          </div>
+          <div class="price-estimate__amount" id="price-amount">₹ 149</div>
+        </div>
+
+        <!-- Submit -->
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:16px;" id="book-now-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>
+          Confirm Booking
+        </button>
+
+        <p style="text-align:center;font-size:0.75rem;color:var(--text-muted);">
+          🔒 You'll only be charged after service is complete and verified
+        </p>
+      </div>
+
+      <!-- Map Preview -->
+      <div class="map-card" id="map-card">
+        <div class="map-card__header">
+          <span style="font-weight:700;font-size:0.9rem;">Live Map</span>
+          <span class="badge badge-green">● Workers Online</span>
+        </div>
+        <div class="map-preview">
+          <!-- Road lines -->
+          <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(0,200,83,0.15);"></div>
+          <div style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(0,200,83,0.15);"></div>
+          <div style="position:absolute;top:30%;left:0;right:0;height:1px;background:rgba(0,200,83,0.08);"></div>
+          <div style="position:absolute;top:70%;left:0;right:0;height:1px;background:rgba(0,200,83,0.08);"></div>
+
+          <!-- You -->
+          <div class="map-pin" style="top:40%;left:48%;">
+            <div class="map-pin__icon">📍</div>
+            <div class="map-pin__pulse"></div>
+          </div>
+
+          <!-- Workers -->
+          <div class="map-worker" style="top:25%;left:35%;animation-delay:0.5s;">👷</div>
+          <div class="map-worker" style="top:55%;left:62%;animation-delay:1.2s;">👷</div>
+          <div class="map-worker" style="top:70%;left:30%;animation-delay:2s;">👷</div>
+          <div class="map-worker" style="top:20%;left:65%;animation-delay:1.5s;">👷</div>
+
+          <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);padding:4px 12px;border-radius:var(--radius-full);font-size:0.7rem;color:var(--text-secondary);">
+            Koramangala, Bengaluru
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast" style="position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--eco-card);border:1px solid rgba(0,200,83,0.3);border-radius:var(--radius-full);padding:12px 24px;font-size:0.88rem;font-weight:600;color:var(--text-primary);box-shadow:var(--shadow-lg);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);z-index:9999;display:flex;align-items:center;gap:8px;white-space:nowrap;">
+  <span id="toast-icon">✅</span>
+  <span id="toast-msg">Booking confirmed!</span>
+</div>
+
+<script src="scripts/app.js"></script>
+</body>
+</html>

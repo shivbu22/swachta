@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Swachta</string>
+    <string name="tagline">Saaf Sheher. Sahi Daam.</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_get_started">Get Started</string>
+    <string name="btn_send_otp">Send OTP</string>
+    <string name="btn_verify_otp">Verify OTP</string>
+    <string name="btn_continue">Continue</string>
+    <string name="btn_proceed_dashboard">Proceed to Dashboard</string>
+    <string name="btn_complete_profile">Complete Profile</string>
+    <string name="btn_detect_location">Detect My Location</string>
+    <string name="btn_enter_manual">Enter Location Manually</string>
+    <string name="btn_book_service">Book Service</string>
+    <string name="btn_plant_now">Plant Now</string>
+    <string name="btn_send_code">SEND CODE →</string>
+    <string name="footer_tagline">every piece RECYCLED, every future PROTECTED.</string>
+    <string name="social_proof">Trusted by 200k+ Eco-Warriors</string>
+</resources>

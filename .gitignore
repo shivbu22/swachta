@@ -1,0 +1,76 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+.env
+
+# Expo / React Native
+.expo/
+.expo-shared/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# Build output
+dist/
+*.apk
+*.ipa
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+.pytest_cache/
+htmlcov/
+
+# Database
+*.db
+*.sqlite3
+alembic/versions/*.pyc
+
+swachta-requestor.apk
+apps/requestor/android/app/build/intermediates/cxx/Debug/24175c2a/obj/arm64-v8a/libreactnative.so
+apps/requestor/android/app/build/intermediates/cxx/Debug/24175c2a/obj/armeabi-v7a/libreactnative.so
+apps/requestor/android/app/build/intermediates/cxx/Debug/24175c2a/obj/x86/libreactnative.so
+apps/requestor/android/app/build/intermediates/cxx/Debug/24175c2a/obj/x86_64/libreactnative.so
+apps/requestor/android/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/arm64-v8a/libreactnative.so
+apps/requestor/android/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/armeabi-v7a/libreactnative.so
+apps/requestor/android/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/x86/libreactnative.so
+apps/requestor/android/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/x86_64/libreactnative.so
+apps/requestor/android/app/build/outputs/apk/debug/app-debug.apk

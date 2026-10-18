@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Join as Worker — Ozomin Careers</title>
+<meta name="description" content="Join Ozomin as a sanitation worker — guaranteed ₹25,000+ salary, health insurance, daily UPI bonuses, safety equipment, and a real career path."/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟢</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/shared.css"/>
+<style>
+/* CAREERS-SPECIFIC */
+.benefits-hero {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  margin-top: 56px;
+}
+.benefit-big {
+  background: var(--oz-green); color: #fff;
+  border-radius: 24px; padding: 40px 36px;
+  position: relative; overflow: hidden;
+}
+.benefit-big::after {
+  content: ''; position: absolute;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  top: -60px; right: -40px;
+}
+.benefit-big .emoji { font-size: 36px; margin-bottom: 16px; }
+.benefit-big h3 {
+  font-size: 24px; font-weight: 800;
+  margin-bottom: 8px; letter-spacing: -0.5px;
+}
+.benefit-big p {
+  font-size: 15px; color: rgba(255,255,255,0.7);
+  line-height: 1.7;
+}
+.benefit-big .highlight-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 42px; font-weight: 800;
+  color: var(--oz-light); margin-top: 16px;
+  line-height: 1;
+}
+
+.benefits-small {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.benefit-sm {
+  background: #fff; border: 1px solid var(--oz-border);
+  border-radius: 18px; padding: 24px;
+  transition: all 0.3s;
+}
+.benefit-sm:hover { border-color: var(--oz-light); transform: translateY(-2px); }
+.benefit-sm .emoji { font-size: 24px; margin-bottom: 10px; }
+.benefit-sm h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.benefit-sm p { font-size: 13px; color: var(--oz-gray); line-height: 1.5; }
+
+/* PROCESS */
+.process-steps {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 0; margin-top: 56px; position: relative;
+}
+.process-steps::before {
+  content: ''; position: absolute;
+  top: 32px; left: 32px; right: 32px;
+  height: 3px; background: var(--oz-pale);
+  z-index: 0;
+}
+.process-step {
+  text-align: center; position: relative; z-index: 1;
+  padding: 0 12px;
+}
+.process-step-num {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--oz-green); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 22px; font-weight: 800;
+  margin: 0 auto 16px;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 16px rgba(26,61,43,0.15);
+}
+.process-step h4 {
+  font-size: 14px; font-weight: 700; margin-bottom: 6px;
+}
+.process-step p {
+  font-size: 12px; color: var(--oz-gray); line-height: 1.5;
+}
+
+/* REQUIREMENTS */
+.req-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  margin-top: 56px; align-items: start;
+}
+.req-list h3 {
+  font-size: 20px; font-weight: 700; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.req-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--oz-border);
+}
+.req-item:last-child { border-bottom: none; }
+.req-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--oz-pale); color: var(--oz-green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.req-item p {
+  font-size: 14px; color: var(--oz-dark); line-height: 1.5;
+}
+.req-item span { font-size: 13px; color: var(--oz-gray); }
+
+/* APPLICATION FORM */
+.apply-section {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: start;
+}
+.apply-info h2 {
+  font-size: 32px; font-weight: 800;
+  letter-spacing: -1px; margin-bottom: 16px;
+  line-height: 1.15;
+}
+.apply-info p {
+  font-size: 16px; color: var(--oz-gray);
+  line-height: 1.7; margin-bottom: 20px;
+}
+.apply-info-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-top: 32px;
+}
+.apply-stat {
+  background: var(--oz-cream); border-radius: 14px;
+  padding: 20px; text-align: center;
+}
+.apply-stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px; font-weight: 800;
+  color: var(--oz-green);
+}
+.apply-stat-label { font-size: 12px; color: var(--oz-gray); margin-top: 4px; }
+
+.apply-form {
+  background: #fff; border: 1px solid var(--oz-border);
+  border-radius: 24px; padding: 40px;
+}
+.apply-form h3 {
+  font-size: 20px; font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* CTA BAND */
+.cta-band {
+  background: var(--oz-dark); padding: 60px 40px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 32px; flex-wrap: wrap;
+}
+.cta-band h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800; color: #fff;
+  letter-spacing: -1px; max-width: 500px; line-height: 1.2;
+}
+.cta-band p { color: rgba(255,255,255,0.5); font-size: 16px; margin-top: 8px; }
+
+@media (max-width: 1024px) {
+  .process-steps { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .process-steps::before { display: none; }
+}
+@media (max-width: 768px) {
+  .benefits-hero { grid-template-columns: 1fr; }
+  .benefits-small { grid-template-columns: 1fr; }
+  .process-steps { grid-template-columns: 1fr 1fr; }
+  .req-grid { grid-template-columns: 1fr; }
+  .apply-section { grid-template-columns: 1fr; gap: 40px; }
+  .cta-band { padding: 40px 20px; }
+}
+@media (max-width: 480px) {
+  .process-steps { grid-template-columns: 1fr; gap: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="ozomin_website.html">
+    <div class="nav-logo-dot"></div>
+    Ozomin
+  </a>
+  <div class="nav-links">
+    <a href="ozomin_website.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="partner.html">Partner</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="nav-cta" href="careers.html" class="active">Join as Worker</a>
+</nav>
+<div class="mobile-menu">
+  <a href="ozomin_website.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="partner.html">Partner</a>
+  <a href="careers.html">Careers</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero" style="background: linear-gradient(135deg, var(--oz-dark) 0%, #1a3d2b 100%);">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb animate-up">
+      <a href="ozomin_website.html">Home</a>
+      <span class="sep">›</span>
+      <span>Careers</span>
+    </div>
+    <div class="section-label animate-up-d1">Join the team</div>
+    <h1 class="page-hero-title animate-up-d2">The most dignified job<br/>in <span>sanitation.</span></h1>
+    <p class="page-hero-sub animate-up-d3">Guaranteed salary. Health insurance. Daily UPI payout. Safety protection. A career path — not just a day's wage. Be part of building India's sanitation infrastructure.</p>
+    <div class="page-hero-actions animate-up-d4">
+      <a class="btn-primary" href="#apply">Apply Now</a>
+      <a class="btn-outline-white" href="#benefits">See Benefits</a>
+    </div>
+  </div>
+</div>
+
+<!-- BENEFITS -->
+<section class="page-section" id="benefits">
+  <div class="section-label">Why join Ozomin</div>
+  <h2 class="section-title">Not just a job. A career.</h2>
+  <p class="section-sub">Every worker at Ozomin is a verified professional — trained, equipped, insured, and paid on time. Every single month.</p>
+
+  <div class="benefits-hero reveal">
+    <div class="benefit-big">
+      <div class="emoji">💰</div>
+      <h3>Guaranteed Monthly Salary</h3>
+      <p>No variable pay games. Whether you do 5 jobs or 50 — your base salary is guaranteed and credited to your bank on the 1st of every month.</p>
+      <div class="highlight-val">₹25,000–₹30,000</div>
+    </div>
+    <div class="benefits-small">
+      <div class="benefit-sm">
+        <div class="emoji">🏥</div>
+        <h4>₹6 Lakh Health Cover</h4>
+        <p>Full medical insurance for you. ₹10L accidental death coverage included.</p>
+      </div>
+      <div class="benefit-sm">
+        <div class="emoji">📈</div>
+        <h4>Per-KG Bonus</h4>
+        <p>Every kilo of recyclable waste delivered = extra money. Grade A plastic pays ₹1.50/kg.</p>
+      </div>
+      <div class="benefit-sm">
+        <div class="emoji">🏦</div>
+        <h4>Bank Account + Loans</h4>
+        <p>We help open your bank account, link PAN, and access NBFC microloans.</p>
+      </div>
+      <div class="benefit-sm">
+        <div class="emoji">🛡️</div>
+        <h4>Full PPE Kit</h4>
+        <p>Gloves, masks, boots, reflective vest, goggles — every shift, every worker. Non-negotiable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOINING PROCESS -->
+<section class="page-section bg-cream">
+  <div class="section-label">How to join</div>
+  <h2 class="section-title">5 steps to your new career</h2>
+  <p class="section-sub">From application to your first job — we guide you through every step.</p>
+
+  <div class="process-steps reveal">
+    <div class="process-step">
+      <div class="process-step-num">1</div>
+      <h4>Apply Online</h4>
+      <p>Fill the form below with your basic details — name, phone, Aadhaar, city.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">2</div>
+      <h4>Aadhaar Verification</h4>
+      <p>We verify your identity via Aadhaar KYC. Takes 24 hours maximum.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">3</div>
+      <h4>14-Day Training</h4>
+      <p>On-field training — PPE usage, waste categorisation, app operation, safety drills.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">4</div>
+      <h4>Cluster Assignment</h4>
+      <p>You're assigned a 500m hyperlocal cluster near your home. No long commutes.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">5</div>
+      <h4>Start Earning</h4>
+      <p>Accept your first job via the Ozomin Worker app. Get paid from day one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REQUIREMENTS -->
+<section class="page-section">
+  <div class="section-label">Eligibility</div>
+  <h2 class="section-title">What you need to join</h2>
+
+  <div class="req-grid reveal">
+    <div class="req-list">
+      <h3>✅ Must have</h3>
+      <div class="req-item">
+        <div class="req-icon">🪪</div>
+        <div>
+          <p><strong>Valid Aadhaar Card</strong></p>
+          <span>For identity verification and compliance</span>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-icon">📱</div>
+        <div>
+          <p><strong>Smartphone with internet</strong></p>
+          <span>Android 8+ required to run the Worker app</span>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-icon">🏠</div>
+        <div>
+          <p><strong>Resident in service city</strong></p>
+          <span>Currently hiring in Ghaziabad, Noida, Meerut</span>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-icon">💪</div>
+        <div>
+          <p><strong>Physical fitness</strong></p>
+          <span>Ability to perform outdoor manual work for 6–8 hours</span>
+        </div>
+      </div>
+    </div>
+    <div class="req-list">
+      <h3>🌟 Good to have</h3>
+      <div class="req-item">
+        <div class="req-icon">🔧</div>
+        <div>
+          <p><strong>Prior sanitation experience</strong></p>
+          <span>Not required — we provide full training</span>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-icon">🏍️</div>
+        <div>
+          <p><strong>Two-wheeler with license</strong></p>
+          <span>Faster response time = priority job assignment</span>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-icon">🏦</div>
+        <div>
+          <p><strong>Bank account</strong></p>
+          <span>If not, we'll help you open one during onboarding</span>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-icon">🗣️</div>
+        <div>
+          <p><strong>Basic Hindi literacy</strong></p>
+          <span>App is fully available in Hindi and English</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION FORM -->
+<section class="page-section bg-cream" id="apply">
+  <div class="apply-section">
+    <div class="apply-info reveal">
+      <div class="section-label">Apply now</div>
+      <h2>Ready to start? Fill the form and we'll call you within 48 hours.</h2>
+      <p>No interview stress. No complicated process. Just share your details, verify your Aadhaar, and start 14-day paid training. We handle the rest — bank account, insurance, PPE, cluster assignment.</p>
+      <div class="apply-info-stats">
+        <div class="apply-stat">
+          <div class="apply-stat-val">100+</div>
+          <div class="apply-stat-label">Active workers</div>
+        </div>
+        <div class="apply-stat">
+          <div class="apply-stat-val">3</div>
+          <div class="apply-stat-label">Cities hiring</div>
+        </div>
+        <div class="apply-stat">
+          <div class="apply-stat-val">48h</div>
+          <div class="apply-stat-label">Response time</div>
+        </div>
+        <div class="apply-stat">
+          <div class="apply-stat-val">14</div>
+          <div class="apply-stat-label">Days paid training</div>
+        </div>
+      </div>
+    </div>
+    <div class="apply-form reveal">
+      <h3>Worker Application</h3>
+      <form data-validate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input class="form-input" type="text" placeholder="Your full name" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number *</label>
+            <input class="form-input" type="tel" placeholder="+91 98765 43210" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Aadhaar Number *</label>
+          <input class="form-input" type="text" placeholder="XXXX XXXX XXXX" required/>
+          <div class="form-hint">Your Aadhaar is used only for identity verification. Never shared.</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">City *</label>
+            <select class="form-select" required>
+              <option value="">Select city</option>
+              <option>Ghaziabad</option>
+              <option>Noida</option>
+              <option>Meerut</option>
+              <option>Other (Waitlist)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Experience</label>
+            <select class="form-select">
+              <option value="">Select experience</option>
+              <option>No experience</option>
+              <option>1–2 years</option>
+              <option>3–5 years</option>
+              <option>5+ years</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Service Type</label>
+          <select class="form-select">
+            <option value="">Any / All</option>
+            <option>Sewer & Drain Cleaning</option>
+            <option>Road Sweeping</option>
+            <option>Garbage Collection</option>
+            <option>Lake & Pond Cleanup</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Anything else?</label>
+          <textarea class="form-textarea" placeholder="Two-wheeler available, prior certifications, preferred shift, etc."></textarea>
+        </div>
+        <button type="submit" class="btn-green" style="width:100%; text-align:center; margin-top:8px;">Submit Application →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div>
+    <h2>Have questions about working with Ozomin?</h2>
+    <p>Call us at +91-XXXXX-XXXXX or WhatsApp — we respond in Hindi and English.</p>
+  </div>
+  <div class="cta-band-actions">
+    <a class="btn-primary" href="contact.html">Contact Us</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="footer-logo" href="ozomin_website.html">
+        <div class="footer-logo-dot"></div>
+        Ozomin
+      </a>
+      <div class="footer-tagline">India's first on-demand sanitation platform. Every kilo of waste collected is a kilo that pays.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <a href="about.html">About</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="careers.html">Join as Worker</a>
+      <a href="partner.html">Partner</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="#">Worker App</a>
+      <a href="#">Request App</a>
+      <a href="#">Admin Dashboard</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-text">© 2026 Ozomin. Maestroedge Solutions Pvt. Ltd. · Ghaziabad, UP</div>
+    <div class="footer-swachh">Aligned with Swachh Bharat Mission</div>
+  </div>
+</footer>
+
+<script src="js/shared.js"></script>
+</body>
+</html>

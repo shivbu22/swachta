@@ -1,0 +1,125 @@
+/* ===== Onboarding Screen ===== */
+.onboarding-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-paper-white);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative blobs */
+.onboarding-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.onboarding-blob-1 {
+  width: 160px;
+  height: 160px;
+  background: rgba(21, 130, 99, 0.06);
+  bottom: 100px;
+  right: -50px;
+}
+
+.onboarding-blob-2 {
+  width: 100px;
+  height: 100px;
+  background: rgba(21, 130, 99, 0.04);
+  bottom: 200px;
+  left: -30px;
+}
+
+.onboarding-blob-3 {
+  width: 70px;
+  height: 70px;
+  background: rgba(21, 130, 99, 0.05);
+  bottom: 60px;
+  right: 60px;
+}
+
+/* Photo area */
+.onboarding-visual {
+  flex: 1;
+  max-height: 55vh;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.onboarding-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: fadeIn 0.5s var(--ease-out);
+}
+
+/* Content */
+.onboarding-content {
+  padding: var(--space-2xl) var(--page-padding);
+  position: relative;
+  z-index: 2;
+}
+
+.onboarding-title {
+  font: var(--font-h1);
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.onboarding-desc {
+  font: var(--font-body);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Dots */
+.onboarding-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: var(--space-lg) 0;
+}
+
+.onboarding-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: #d1d5db;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.onboarding-dot.active {
+  width: 28px;
+  background: var(--color-dark-green);
+}
+
+/* Actions */
+.onboarding-actions {
+  display: flex;
+  gap: var(--space-base);
+  padding: 0 var(--page-padding);
+  padding-bottom: max(var(--space-2xl), env(safe-area-inset-bottom));
+  position: relative;
+  z-index: 2;
+}
+
+.onboarding-skip {
+  background: rgba(21, 130, 99, 0.06);
+  color: var(--color-primary);
+  min-width: 100px;
+  border-radius: var(--radius-2xl);
+}
+
+.onboarding-next {
+  flex: 1;
+}

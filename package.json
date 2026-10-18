@@ -1,0 +1,23 @@
+{
+  "name": "swachta",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Swachta — Verified waste collection platform, Ghaziabad pilot MVP",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "requestor": "npm run start --workspace=apps/requestor",
+    "worker": "npm run start --workspace=apps/worker",
+    "dashboard": "npm run dev --workspace=apps/ops-dashboard",
+    "backend": "cd backend && uvicorn main:app --reload --host 0.0.0.0 --port 8000",
+    "test:all": "npx tsc -p apps/requestor/tsconfig.json --noEmit && npx tsc -p apps/worker/tsconfig.json --noEmit && npm run build --workspace=apps/ops-dashboard",
+    "simulate": "python backend/scratch/test_pilot_e2e_simulation.py",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

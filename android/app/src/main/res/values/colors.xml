@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand -->
+    <color name="brand_primary">#4A7C3F</color>
+    <color name="brand_dark">#1D4E1A</color>
+    <color name="brand_deep_forest">#0F2E0D</color>
+
+    <!-- Surfaces -->
+    <color name="surface_bg">#F3FAF3</color>
+    <color name="surface_card">#FFFFFF</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1F2A20</color>
+    <color name="text_secondary">#6B7A6D</color>
+    <color name="text_on_brand">#FFFFFF</color>
+
+    <!-- Accents -->
+    <color name="accent_danger">#E5484D</color>
+    <color name="accent_info">#3B82F6</color>
+    <color name="accent_gold">#C9A227</color>
+
+    <!-- Border -->
+    <color name="border_default">#DCE7DC</color>
+</resources>

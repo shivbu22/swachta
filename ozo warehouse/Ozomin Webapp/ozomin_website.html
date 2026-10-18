@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ozomin — Saaf Sheher, Sahi Daam</title>
+<meta name="description" content="India's first on-demand sanitation platform. Connecting sewer cleaners, road sweepers, and garbage collectors to jobs in under 15 minutes."/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟢</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/shared.css"/>
+<style>
+/* LANDING PAGE SPECIFIC */
+/* HERO */
+.hero {
+  min-height: 88vh;
+  background: var(--oz-dark);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center;
+  padding: 80px 40px 60px;
+}
+.hero-bg-circle {
+  position: absolute; border-radius: 50%;
+  background: var(--oz-mid); opacity: 0.08;
+}
+.hero-bg-circle.c1 { width: 600px; height: 600px; top: -200px; right: -100px; }
+.hero-bg-circle.c2 { width: 400px; height: 400px; bottom: -150px; left: -80px; }
+.hero-grid-line {
+  position: absolute; background: rgba(82,183,136,0.06);
+}
+.hero-content { position: relative; z-index: 2; max-width: 640px; }
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(82,183,136,0.15); color: var(--oz-light);
+  padding: 6px 16px; border-radius: 100px;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.5px;
+  margin-bottom: 28px;
+  border: 1px solid rgba(82,183,136,0.25);
+}
+.hero-pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--oz-light); animation: pulse-dot 1.5s infinite; }
+.hero h1 {
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 800; line-height: 1.05;
+  color: #fff; letter-spacing: -2px;
+  margin-bottom: 24px;
+}
+.hero h1 span { color: var(--oz-light); }
+.hero-sub {
+  font-size: 18px; line-height: 1.7;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 40px; font-weight: 300;
+  max-width: 520px;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-stats {
+  display: flex; gap: 40px; margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.hero-stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px; font-weight: 700; color: #fff;
+}
+.hero-stat-label { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+.hero-visual {
+  position: absolute; right: 40px; top: 50%;
+  transform: translateY(-50%);
+  width: 420px; z-index: 2;
+}
+
+/* MARQUEE */
+.marquee-bar {
+  background: var(--oz-light); padding: 14px 0;
+  overflow: hidden; white-space: nowrap;
+}
+.marquee-track {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+}
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.marquee-item {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--oz-dark); margin-right: 48px;
+  letter-spacing: 0.3px;
+}
+.marquee-sep { color: var(--oz-mid); font-size: 18px; }
+
+/* SERVICES */
+#services { background: var(--oz-cream); }
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px; margin-top: 56px;
+}
+.service-card {
+  background: #fff;
+  border: none;
+  box-shadow: 0 12px 48px -12px rgba(26,61,43,0.08);
+  border-radius: 32px; padding: 32px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor: default;
+  position: relative; overflow: hidden;
+}
+.service-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: var(--oz-light);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s;
+}
+.service-card:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 20px 60px -15px rgba(26,61,43,0.12); }
+.service-card:hover::before { transform: scaleX(1); }
+.service-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--oz-pale); display: flex;
+  align-items: center; justify-content: center;
+  font-size: 24px; margin-bottom: 20px;
+}
+.service-card h3 {
+  font-size: 18px; font-weight: 700;
+  color: var(--oz-dark); margin-bottom: 10px;
+}
+.service-card p {
+  font-size: 14px; color: var(--oz-gray);
+  line-height: 1.6;
+}
+.service-tag {
+  display: inline-block; margin-top: 16px;
+  font-size: 11px; font-weight: 600;
+  color: var(--oz-mid); background: var(--oz-pale);
+  padding: 4px 10px; border-radius: 100px;
+  letter-spacing: 0.3px;
+}
+
+/* HOW IT WORKS */
+#how-it-works { background: #fff; }
+.hiw-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center; margin-top: 60px;
+}
+.hiw-steps { display: flex; flex-direction: column; gap: 0; }
+.hiw-step {
+  display: flex; gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--oz-border);
+  cursor: pointer; transition: all 0.2s;
+}
+.hiw-step:first-child { padding-top: 0; }
+.hiw-step:last-child { border-bottom: none; }
+.hiw-step:hover .hiw-step-num { background: var(--oz-green); color: #fff; }
+.hiw-step-num {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--oz-pale); color: var(--oz-green);
+  font-family: 'Syne', sans-serif;
+  font-size: 16px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.2s;
+}
+.hiw-step-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px; font-weight: 700; color: var(--oz-dark);
+  margin-bottom: 6px;
+}
+.hiw-step-desc { font-size: 14px; color: var(--oz-gray); line-height: 1.6; }
+.hiw-visual {
+  background: var(--oz-dark);
+  border-radius: 48px; overflow: hidden;
+  box-shadow: 0 24px 64px -16px rgba(26,61,43,0.25);
+  aspect-ratio: 4/5; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.hiw-phone-mock {
+  width: 200px;
+  background: #1a2e22;
+  border-radius: 36px;
+  padding: 20px 16px;
+  border: 1.5px solid rgba(82,183,136,0.3);
+}
+.phone-notch {
+  width: 60px; height: 6px; background: rgba(255,255,255,0.1);
+  border-radius: 3px; margin: 0 auto 20px;
+}
+.phone-row {
+  background: rgba(82,183,136,0.1);
+  border-radius: 10px; padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(82,183,136,0.15);
+}
+.phone-row-title { font-size: 11px; font-weight: 600; color: #9fe1cb; margin-bottom: 4px; }
+.phone-row-sub { font-size: 10px; color: rgba(255,255,255,0.4); }
+.phone-map {
+  background: rgba(26,61,43,0.5);
+  border-radius: 10px; height: 80px; margin-bottom: 10px;
+  border: 1px solid rgba(82,183,136,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: rgba(82,183,136,0.7); font-weight: 500;
+}
+.phone-accept {
+  background: var(--oz-light); color: var(--oz-dark);
+  border-radius: 8px; padding: 10px;
+  text-align: center; font-size: 12px; font-weight: 600;
+}
+.hiw-bg-dots {
+  position: absolute; top: 20px; right: 20px;
+  display: grid; grid-template-columns: repeat(5,1fr); gap: 8px;
+}
+.hiw-bg-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(82,183,136,0.2); }
+
+/* WHY US */
+#why-us { background: var(--oz-dark); }
+#why-us .section-title { color: #fff; }
+#why-us .section-sub { color: rgba(255,255,255,0.5); }
+#why-us .section-label { color: var(--oz-light); }
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px; margin-top: 60px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 48px; overflow: hidden;
+}
+.why-card {
+  background: var(--oz-dark); padding: 40px 32px;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.3s;
+}
+.why-card:hover { background: rgba(26,61,43,0.6); }
+.why-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px; font-weight: 800;
+  color: var(--oz-light); opacity: 0.25;
+  line-height: 1; margin-bottom: 20px;
+}
+.why-card h3 {
+  font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 12px;
+}
+.why-card p { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.7; }
+.why-highlight {
+  grid-column: span 3;
+  background: var(--oz-mid);
+  padding: 32px 40px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 20px;
+}
+.why-highlight-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px; font-weight: 700; color: #fff;
+  max-width: 600px; line-height: 1.3;
+}
+.why-highlight-tag {
+  background: rgba(255,255,255,0.15); color: #fff;
+  padding: 10px 24px; border-radius: 100px;
+  font-size: 13px; font-weight: 500; white-space: nowrap;
+}
+
+/* WASTE FLOW */
+.waste-flow-section { background: var(--oz-cream); }
+.flow-steps {
+  display: flex; gap: 0;
+  margin-top: 56px; overflow-x: auto;
+  padding-bottom: 8px;
+}
+.flow-step {
+  flex: 1; min-width: 160px;
+  text-align: center; position: relative;
+  padding: 0 16px;
+}
+.flow-step::after {
+  content: '→';
+  position: absolute; right: -8px; top: 28px;
+  font-size: 20px; color: var(--oz-light);
+  font-weight: 300;
+}
+.flow-step:last-child::after { display: none; }
+.flow-icon {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--oz-green); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin: 0 auto 16px;
+}
+.flow-step h4 {
+  font-size: 14px; font-weight: 700;
+  color: var(--oz-dark); margin-bottom: 6px;
+}
+.flow-step p { font-size: 12px; color: var(--oz-gray); line-height: 1.5; }
+.flow-rev {
+  background: var(--oz-green); color: #fff;
+  border-radius: 16px; padding: 24px 32px;
+  display: flex; align-items: center; gap: 20px;
+  margin-top: 40px; flex-wrap: wrap;
+}
+.flow-rev-label { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 2px; }
+.flow-rev-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px; font-weight: 700; color: #fff;
+}
+.flow-rev-divider { width: 1px; height: 48px; background: rgba(255,255,255,0.15); }
+
+/* FAQS */
+#faqs { background: #fff; }
+.faq-list { margin-top: 56px; max-width: 760px; }
+.faq-item {
+  border-bottom: 1px solid var(--oz-border);
+  overflow: hidden;
+}
+.faq-q {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 24px 0; cursor: pointer;
+  font-family: 'Syne', sans-serif;
+  font-size: 16px; font-weight: 600; color: var(--oz-dark);
+  gap: 20px; transition: color 0.2s;
+}
+.faq-q:hover { color: var(--oz-mid); }
+.faq-toggle {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--oz-pale); color: var(--oz-green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  transition: all 0.25s; font-weight: 300;
+}
+.faq-a {
+  font-size: 15px; color: var(--oz-gray);
+  line-height: 1.8; max-height: 0; overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.25s;
+  font-weight: 300;
+}
+
+/* WORKER SECTION */
+.worker-section {
+  background: var(--oz-green); padding: 80px 40px;
+  display: flex; gap: 80px; align-items: center;
+  flex-wrap: wrap;
+}
+.worker-content { flex: 1; min-width: 280px; }
+.worker-content .section-label { color: var(--oz-light); }
+.worker-content .section-label::before { background: rgba(255,255,255,0.3); }
+.worker-content .section-title { color: #fff; }
+.worker-content .section-sub { color: rgba(255,255,255,0.65); }
+.worker-benefits {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px; margin-top: 36px;
+}
+.wb-item {
+  background: rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 18px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.wb-icon { font-size: 20px; margin-bottom: 8px; }
+.wb-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+.wb-desc { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.worker-stats {
+  flex: 1; min-width: 280px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.ws-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 32px; padding: 28px 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+.ws-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px; font-weight: 800; color: var(--oz-light);
+  line-height: 1;
+}
+.ws-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 8px; line-height: 1.4; }
+
+/* ANIMATIONS */
+.hero-content > * { animation: fadeUp 0.7s ease both; }
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+
+@media (max-width: 768px) {
+  .hero { padding: 60px 20px 40px; min-height: auto; }
+  .hero-visual { display: none; }
+  .hiw-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .why-highlight { grid-column: span 1; flex-direction: column; }
+  .worker-section { padding: 60px 20px; }
+  
+  /* FIX: Stack waste flow vertically on mobile */
+  .flow-steps { flex-direction: column; padding-bottom: 0; overflow-x: visible; gap: 24px; }
+  .flow-step { min-width: auto; }
+  .flow-step::after { content: '↓'; right: auto; left: 50%; transform: translateX(-50%); top: auto; bottom: -28px; }
+  .flow-rev { justify-content: space-between; }
+  .flow-rev-divider { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="ozomin_website.html">
+    <div class="nav-logo-dot"></div>
+    Ozomin
+  </a>
+  <div class="nav-links">
+    <a href="ozomin_website.html" class="active">Home</a>
+    <a href="about.html">About</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="partner.html">Partner</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="nav-cta" href="careers.html">Join as Worker</a>
+</nav>
+<div class="mobile-menu">
+  <a href="ozomin_website.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="partner.html">Partner</a>
+  <a href="careers.html">Careers</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="hero-content">
+    <div class="hero-pill">
+      <div class="hero-pill-dot"></div>
+      Now live in Ghaziabad, UP
+    </div>
+    <h1>Saaf Sheher.<br/><span>Sahi Daam.</span></h1>
+    <p class="hero-sub">India's first on-demand sanitation platform — connecting sewer cleaners, road sweepers, garbage collectors and lake pickers to jobs in under 15 minutes. Every kilo of waste collected earns money.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#services">Book a Service</a>
+      <a class="btn-outline-white" href="#how-it-works">See how it works</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val">15 min</div>
+        <div class="hero-stat-label">Worker arrival guarantee</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">₹0</div>
+        <div class="hero-stat-label">Waste left behind</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">3 WH</div>
+        <div class="hero-stat-label">Segregation warehouses</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual animate-up-d4">
+    <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=800" alt="Ozomin clean city waste management" style="border-radius:24px; box-shadow:0 24px 60px rgba(82,183,136,0.3); border:1px solid rgba(82,183,136,0.2); object-fit:cover; width:100%; height:auto;" />
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Sewer Cleaning</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Road Sweeping</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Garbage Collection</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Lake & Pond Pickup</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Waste Segregation</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Recycling Revenue</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Worker Empowerment</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Swachh Bharat Aligned</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Sewer Cleaning</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Road Sweeping</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Garbage Collection</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Lake & Pond Pickup</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Waste Segregation</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Recycling Revenue</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Worker Empowerment</span>
+    <span class="marquee-item"><span class="marquee-sep">◆</span> Swachh Bharat Aligned</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" class="page-section">
+  <div class="section-label reveal">What we do</div>
+  <h2 class="section-title reveal">Every service your city needs</h2>
+  <p class="section-sub reveal">From blocked drains to floating plastic in lakes — Ozomin workers reach you in under 15 minutes, trained and equipped.</p>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-icon">🚰</div>
+      <h3>Sewer & Drain Cleaning</h3>
+      <p>Certified workers with tools and PPE clear blocked drains, manholes, and sewer lines. All sludge logged and sent to OZ-01 warehouse for disposal.</p>
+      <span class="service-tag">Instant · 15 min arrival</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🧹</div>
+      <h3>Road Sweeping</h3>
+      <p>Daily and scheduled road sweeping for colonies, markets, and industrial areas. Dry waste separated and routed directly to recyclers via Ozomin warehouse.</p>
+      <span class="service-tag">Daily · Scheduled routes</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🗑️</div>
+      <h3>Garbage Collection</h3>
+      <p>Door-to-door or hotspot pickup of mixed household and commercial waste. Wet waste composted. Dry waste graded A/B/C and sold to recyclers for revenue.</p>
+      <span class="service-tag">Instant · Scheduled</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌊</div>
+      <h3>Lake & Pond Cleanup</h3>
+      <p>Trained lake pickers remove plastic, debris and organic waste from water bodies. GPS-tracked collection logged to the gram. Revenue from salvaged material shared.</p>
+      <span class="service-tag">Project-based · Fleet</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏗️</div>
+      <h3>Construction Debris</h3>
+      <p>Post-construction site clearing with segregation of reusable material — iron rods, bricks, wood — graded and sold. Remaining debris disposed compliantly.</p>
+      <span class="service-tag">On-demand · Fleet size</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚡</div>
+      <h3>Emergency Response</h3>
+      <p>Flood aftermath, accident debris, or sudden waste emergency — Ozomin dispatches the nearest available worker fleet within 10 minutes of an SOS job post.</p>
+      <span class="service-tag">Emergency · Priority</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="page-section">
+  <div class="section-label reveal">The process</div>
+  <h2 class="section-title reveal">Simple for you.<br/>Powerful underneath.</h2>
+  <p class="section-sub reveal">Three taps to clean streets. A full logistics chain running behind it.</p>
+  <div class="hiw-grid">
+    <div class="hiw-steps reveal">
+      <div class="hiw-step">
+        <div class="hiw-step-num">1</div>
+        <div>
+          <div class="hiw-step-title">Post the job</div>
+          <div class="hiw-step-desc">Municipality officer, colony RWA, or citizen pins the location on the map, picks job type — sewer, garbage, sweep, lake — and posts. Instant or scheduled.</div>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">2</div>
+        <div>
+          <div class="hiw-step-title">Worker accepts in seconds</div>
+          <div class="hiw-step-desc">The nearest trained Ozomin worker gets a push notification. They accept with one tap. You see their live location moving toward you on the map. ETA shown in real time.</div>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">3</div>
+        <div>
+          <div class="hiw-step-title">OTP verification starts job</div>
+          <div class="hiw-step-desc">Worker arrives. You share a 4-digit OTP to confirm. Job begins. Worker takes a before photo for your proof of work record.</div>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">4</div>
+        <div>
+          <div class="hiw-step-title">Waste logged & routed</div>
+          <div class="hiw-step-desc">Every kilo collected is photographed, categorised — dry, wet, metal, organic — and assigned a grade by AI camera. Worker navigates to nearest Ozomin warehouse.</div>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">5</div>
+        <div>
+          <div class="hiw-step-title">Warehouse sells, worker earns</div>
+          <div class="hiw-step-desc">Warehouse staff weigh and verify the waste. Recyclables sold to buyers. Revenue flows back as worker bonus. You receive before/after proof and a warehouse receipt.</div>
+        </div>
+      </div>
+    </div>
+    <div class="hiw-visual reveal">
+      <div class="hiw-bg-dots">
+        <div class="hiw-bg-dot"></div><div class="hiw-bg-dot"></div><div class="hiw-bg-dot"></div><div class="hiw-bg-dot"></div><div class="hiw-bg-dot"></div>
+        <div class="hiw-bg-dot"></div><div class="hiw-bg-dot"></div><div class="hiw-bg-dot"></div><div class="hiw-bg-dot"></div><div class="hiw-bg-dot"></div>
+      </div>
+      <div class="hiw-phone-mock">
+        <div class="phone-notch"></div>
+        <div style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.3);margin-bottom:12px;letter-spacing:1px">OZOMIN WORKER</div>
+        <div class="phone-map">● Live GPS — 180m to job</div>
+        <div class="phone-row">
+          <div class="phone-row-title">Sewer Drain — Sector 12 Lane B</div>
+          <div class="phone-row-sub">Posted 2 min ago · ₹140 · 45 min</div>
+        </div>
+        <div class="phone-row" style="background:rgba(231,111,0,0.1);border-color:rgba(231,111,0,0.2)">
+          <div class="phone-row-title" style="color:#f4a261">Waste log: 22 kg PET · Grade A</div>
+          <div class="phone-row-sub">Bonus: +₹33 · WH-OZ03 (1.2 km)</div>
+        </div>
+        <div class="phone-accept">Accept Job →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WASTE FLOW -->
+<section class="waste-flow-section page-section">
+  <div class="section-label reveal">The circular economy</div>
+  <h2 class="section-title reveal">Waste that pays for itself</h2>
+  <p class="section-sub reveal">Every kilo of waste collected does not disappear. It enters a revenue chain that funds worker salaries and city cleanliness simultaneously.</p>
+  <div class="flow-steps reveal">
+    <div class="flow-step">
+      <div class="flow-icon">🏘️</div>
+      <h4>Street / drain / lake</h4>
+      <p>Waste exists at the source — road, sewer, water body</p>
+    </div>
+    <div class="flow-step">
+      <div class="flow-icon">👷</div>
+      <h4>Ozomin worker collects</h4>
+      <p>Trained worker logs type + photo + weight on app</p>
+    </div>
+    <div class="flow-step">
+      <div class="flow-icon">🏭</div>
+      <h4>OZ Warehouse receives</h4>
+      <p>Waste weighed, verified, graded A / B / C by staff</p>
+    </div>
+    <div class="flow-step">
+      <div class="flow-icon">♻️</div>
+      <h4>Segregated by material</h4>
+      <p>PET plastic, iron, cardboard, glass, organic all separated</p>
+    </div>
+    <div class="flow-step">
+      <div class="flow-icon">💰</div>
+      <h4>Sold to recyclers</h4>
+      <p>Revenue at market rate — ₹18/kg plastic, ₹85/kg aluminium</p>
+    </div>
+    <div class="flow-step">
+      <div class="flow-icon">🎯</div>
+      <h4>Worker bonus credited</h4>
+      <p>Per-kg bonus transferred to UPI the same day</p>
+    </div>
+  </div>
+  <div class="flow-rev reveal">
+    <div>
+      <div class="flow-rev-label">PET Plastic</div>
+      <div class="flow-rev-val">₹18 / kg</div>
+    </div>
+    <div class="flow-rev-divider"></div>
+    <div>
+      <div class="flow-rev-label">Iron Scrap</div>
+      <div class="flow-rev-val">₹28 / kg</div>
+    </div>
+    <div class="flow-rev-divider"></div>
+    <div>
+      <div class="flow-rev-label">Aluminium</div>
+      <div class="flow-rev-val">₹85 / kg</div>
+    </div>
+    <div class="flow-rev-divider"></div>
+    <div>
+      <div class="flow-rev-label">Cardboard</div>
+      <div class="flow-rev-val">₹10 / kg</div>
+    </div>
+    <div class="flow-rev-divider"></div>
+    <div style="margin-left:auto">
+      <div class="flow-rev-label">Worker keeps</div>
+      <div class="flow-rev-val" style="color:#ffd166">₹1.5–15 / kg bonus</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why-us" class="page-section">
+  <div class="section-label reveal">Why Ozomin</div>
+  <h2 class="section-title reveal">Not an app. An infrastructure.</h2>
+  <p class="section-sub reveal">Every other solution treats waste as a problem to ignore. Ozomin treats it as a resource to monetise — and workers as professionals, not tools.</p>
+  <div class="why-grid reveal">
+    <div class="why-card">
+      <div class="why-num">01</div>
+      <h3>Full-stack operator</h3>
+      <p>We recruit, verify with Aadhaar, train, equip with PPE, and manage every worker. No freelancers. No uncertainty. The 15-minute arrival promise is real because we control every variable.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">02</div>
+      <h3>Hyperlocal clusters</h3>
+      <p>Each city is geo-fenced into nano-clusters of 500m radius. Workers are stationed inside their cluster — never more than 300m from the next job. Distance is engineered out of the equation.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">03</div>
+      <h3>Waste becomes revenue</h3>
+      <p>Snabbit's job ends when the cleaner leaves. Ozomin's job ends when the recycler pays. Every kilo collected is tracked, graded, sold, and turned into worker bonuses. Waste funds the operation.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">04</div>
+      <h3>Kavach safety system</h3>
+      <p>AI-powered monitoring detects unusual noise or 15-min stillness during a job and auto-alerts the field officer. Hardware SOS fires even on a locked screen. Buddy pairing means no worker is ever alone.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">05</div>
+      <h3>Government-ready</h3>
+      <p>Auto-generates Swachh Bharat Mission compliance reports. GPS-stamped before/after photos serve as legal proof of work. Aadhaar-linked workforce means full regulatory compliance from day one.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">06</div>
+      <h3>Offline-first technology</h3>
+      <p>Sewer workers lose signal underground. Lake pickers lose signal in remote areas. Ozomin's app works fully offline — jobs, checklists, waste logs, photos — all synced when signal returns.</p>
+    </div>
+    <div class="why-highlight">
+      <div class="why-highlight-text">"The problem was never the number of workers. It was the absence of a system that connected the right worker to the right spot at the right time."</div>
+      <div class="why-highlight-tag">Ozomin mission</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKER SECTION -->
+<div class="worker-section reveal">
+  <div class="worker-content">
+    <div class="section-label">Join as a worker</div>
+    <h2 class="section-title" style="font-size:clamp(28px,3.5vw,44px)">The most dignified job in sanitation</h2>
+    <p class="section-sub">Guaranteed monthly salary. Health insurance. Daily UPI payout. Safety protection. A career path — not just a day's wage.</p>
+    <div class="worker-benefits">
+      <div class="wb-item">
+        <div class="wb-icon">💰</div>
+        <div class="wb-title">₹25,000–₹30,000 / month</div>
+        <div class="wb-desc">Guaranteed base salary regardless of job count</div>
+      </div>
+      <div class="wb-item">
+        <div class="wb-icon">🏥</div>
+        <div class="wb-title">₹6 Lakh health cover</div>
+        <div class="wb-desc">Plus ₹10L accidental death insurance</div>
+      </div>
+      <div class="wb-item">
+        <div class="wb-icon">📈</div>
+        <div class="wb-title">Waste bonus per kg</div>
+        <div class="wb-desc">Grade A plastic = ₹1.50/kg extra on top of salary</div>
+      </div>
+      <div class="wb-item">
+        <div class="wb-icon">🏦</div>
+        <div class="wb-title">Bank account + loan access</div>
+        <div class="wb-desc">We help open account, link PAN, access NBFC loans</div>
+      </div>
+    </div>
+  </div>
+  <div class="worker-stats">
+    <div class="ws-card">
+      <div class="ws-val">15 min</div>
+      <div class="ws-label">Max travel to any job in your cluster</div>
+    </div>
+    <div class="ws-card">
+      <div class="ws-val">100%</div>
+      <div class="ws-label">Women-led workforce — safe, verified, insured</div>
+    </div>
+    <div class="ws-card">
+      <div class="ws-val">Daily</div>
+      <div class="ws-label">UPI payout available anytime</div>
+    </div>
+    <div class="ws-card">
+      <div class="ws-val">4 apps</div>
+      <div class="ws-label">Worker, Request, Warehouse & Admin — all connected</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQs -->
+<section id="faqs" class="page-section">
+  <div class="section-label reveal">Common questions</div>
+  <h2 class="section-title reveal">FAQs</h2>
+  <div class="faq-list reveal">
+    <div class="faq-item">
+      <div class="faq-q">
+        How is Ozomin different from calling the municipality?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">The municipality has no real-time tracking, no arrival guarantee, no proof of work, and no recycling chain. You make a complaint and wait days. Ozomin gives you a trained worker at your pinned location in 15 minutes, with before/after photos, a warehouse receipt proving where the waste went, and live GPS tracking throughout. The worker is accountable by name, rating, and Aadhaar — not anonymous.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        Who can book a service on Ozomin?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Any municipality officer, RWA secretary, private company, NGO, or individual citizen can post a job on Ozomin. You log in with your phone number via OTP — no lengthy registration. Municipalities and companies get a dedicated admin dashboard for bulk job posting, worker tracking, and monthly compliance reports. Citizens use the simple 3-tap booking flow.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        What happens to the waste after collection?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Every kilo collected is logged with photo, weight, and GPS coordinates. The worker navigates to the nearest Ozomin warehouse — OZ-01, OZ-02, or OZ-03 — where warehouse staff weigh and verify the delivery. Dry recyclable waste is graded A, B, or C and sold to verified recyclers. Wet organic waste goes to compost partners. Hazardous or non-recyclable waste is disposed through certified channels. You receive a full chain-of-custody receipt.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        How are workers kept safe during sewer or lake jobs?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Three layers protect every Ozomin worker. The Kavach AI system monitors for unusual sound or 15 minutes of device stillness and auto-alerts the nearest field officer. The hardware SOS trigger fires by pressing the volume button 3 times — it works even on a locked screen inside a dark sewer. The buddy system pairs every worker with a nearby colleague who gets alerted if their partner goes silent. Every worker also has a live-location sharing button that they can activate to share their exact position with a trusted contact at any moment.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        How does the 15-minute arrival actually work?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Ozomin divides every city into hyperlocal clusters of roughly 500-metre radius. Trained workers are stationed inside their assigned cluster throughout their shift — they are never travelling across the city. When a job is posted, the system assigns the nearest available worker who is already standing within 300 metres of the job site. As density increases and more workers join each cluster, arrival time decreases further. This is the same model Snabbit proved for home cleaning — Ozomin applies it to sanitation infrastructure.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        Is Ozomin aligned with Swachh Bharat Mission?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Yes — by design. The Admin Dashboard auto-generates weekly and monthly reports in the format required by the Swachh Bharat Mission and Solid Waste Management Rules 2016. Every job has GPS-stamped before/after photo proof. The workforce is Aadhaar-verified and formally employed with insurance and bank accounts. Ozomin helps municipalities meet compliance targets without manual data collection.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        How do workers get paid?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Workers receive a guaranteed monthly base salary of ₹25,000 to ₹30,000 transferred directly to their bank account. On top of that, they earn daily waste bonuses calculated per kilogram of recyclable material they deliver to the warehouse — Grade A plastic earns ₹1.50 per kg, aluminium ₹15 per kg. They can withdraw earned bonus money via UPI any time of day without waiting for the monthly cycle. Early login bonuses, streak bonuses, and referral payments are credited the same day.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="footer-logo" href="ozomin_website.html">
+        <div class="footer-logo-dot"></div>
+        Ozomin
+      </a>
+      <div class="footer-tagline">India's first on-demand sanitation platform. Every kilo of waste collected is a kilo that pays — for a cleaner city and a better life for the worker who carried it.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <a href="about.html">About</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="careers.html">Join as Worker</a>
+      <a href="partner.html">Partner</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="#">Worker App</a>
+      <a href="#">Request App</a>
+      <a href="#">Admin Dashboard</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-text">© 2026 Ozomin. Maestroedge Solutions Pvt. Ltd. · Ghaziabad, UP</div>
+    <div class="footer-swachh">Aligned with Swachh Bharat Mission</div>
+  </div>
+</footer>
+
+<script src="js/shared.js"></script>
+</body>
+</html>

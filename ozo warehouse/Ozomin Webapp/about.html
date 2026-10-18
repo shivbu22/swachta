@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>About Ozomin — India's First On-Demand Sanitation Platform</title>
+<meta name="description" content="Learn how Ozomin is transforming urban sanitation in India with trained workers, real-time tracking, and a circular waste economy that pays workers per kilo."/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟢</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/shared.css"/>
+<style>
+/* ABOUT-SPECIFIC */
+.story-section {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.story-text h2 {
+  font-size: 36px; font-weight: 800;
+  letter-spacing: -1px; margin-bottom: 20px;
+  line-height: 1.15;
+}
+.story-text p {
+  font-size: 16px; color: var(--oz-gray);
+  line-height: 1.8; margin-bottom: 16px;
+}
+.story-visual {
+  background: var(--oz-cream);
+  border-radius: 28px; padding: 48px;
+  position: relative; overflow: hidden;
+}
+.story-stat-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+}
+.story-stat {
+  text-align: center; padding: 24px 16px;
+  background: #fff; border-radius: 16px;
+  border: 1px solid var(--oz-border);
+}
+.story-stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px; font-weight: 800;
+  color: var(--oz-green); line-height: 1;
+}
+.story-stat-label { font-size: 12px; color: var(--oz-gray); margin-top: 6px; }
+
+/* VALUES */
+.values-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; border: 1px solid var(--oz-border);
+  border-radius: 24px; overflow: hidden;
+  margin-top: 56px;
+}
+.value-card {
+  padding: 40px 32px;
+  border-right: 1px solid var(--oz-border);
+  border-bottom: 1px solid var(--oz-border);
+  transition: background 0.3s;
+}
+.value-card:nth-child(3n) { border-right: none; }
+.value-card:nth-child(n+4) { border-bottom: none; }
+.value-card:hover { background: var(--oz-pale); }
+.value-icon {
+  width: 52px; height: 52px;
+  background: var(--oz-pale); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin-bottom: 20px;
+}
+.value-card h3 {
+  font-size: 18px; font-weight: 700;
+  margin-bottom: 10px;
+}
+.value-card p {
+  font-size: 14px; color: var(--oz-gray);
+  line-height: 1.7;
+}
+
+/* TIMELINE */
+.timeline { position: relative; margin-top: 56px; max-width: 700px; }
+.timeline::before {
+  content: ''; position: absolute;
+  left: 20px; top: 0; bottom: 0;
+  width: 2px; background: var(--oz-pale);
+}
+.timeline-item {
+  display: flex; gap: 24px;
+  padding-bottom: 40px; position: relative;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--oz-green); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px; font-weight: 700;
+  flex-shrink: 0; z-index: 1;
+}
+.timeline-content h4 {
+  font-size: 17px; font-weight: 700;
+  margin-bottom: 6px;
+}
+.timeline-content p {
+  font-size: 14px; color: var(--oz-gray); line-height: 1.7;
+}
+.timeline-year {
+  font-size: 11px; font-weight: 600;
+  color: var(--oz-light); letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+/* TEAM */
+.team-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 24px; margin-top: 56px;
+}
+.team-card {
+  text-align: center; padding: 32px 20px;
+  border: 1px solid var(--oz-border);
+  border-radius: 20px; transition: all 0.3s;
+}
+.team-card:hover { border-color: var(--oz-light); transform: translateY(-4px); }
+.team-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--oz-pale), var(--oz-light));
+  margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+}
+.team-card h4 {
+  font-size: 16px; font-weight: 700; margin-bottom: 4px;
+}
+.team-card .role {
+  font-size: 13px; color: var(--oz-mid); font-weight: 500;
+  margin-bottom: 8px;
+}
+.team-card p {
+  font-size: 13px; color: var(--oz-gray); line-height: 1.5;
+}
+
+/* CTA BAND */
+.cta-band {
+  background: var(--oz-green); padding: 60px 40px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 32px;
+  flex-wrap: wrap;
+}
+.cta-band h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800; color: #fff;
+  letter-spacing: -1px; max-width: 500px;
+  line-height: 1.2;
+}
+.cta-band-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+@media (max-width: 768px) {
+  .story-section { grid-template-columns: 1fr; gap: 40px; }
+  .values-grid { grid-template-columns: 1fr; }
+  .value-card { border-right: none !important; }
+  .value-card:last-child { border-bottom: none; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .cta-band { padding: 40px 20px; }
+}
+@media (max-width: 480px) {
+  .team-grid { grid-template-columns: 1fr; }
+  .story-stat-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="ozomin_website.html">
+    <div class="nav-logo-dot"></div>
+    Ozomin
+  </a>
+  <div class="nav-links">
+    <a href="ozomin_website.html">Home</a>
+    <a href="about.html" class="active">About</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="partner.html">Partner</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="nav-cta" href="careers.html">Join as Worker</a>
+</nav>
+<div class="mobile-menu">
+  <a href="ozomin_website.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="partner.html">Partner</a>
+  <a href="careers.html">Careers</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb animate-up">
+      <a href="ozomin_website.html">Home</a>
+      <span class="sep">›</span>
+      <span>About</span>
+    </div>
+    <div class="section-label animate-up-d1">Our story</div>
+    <h1 class="page-hero-title animate-up-d2">We didn't build an app.<br/><span>We built infrastructure.</span></h1>
+    <p class="page-hero-sub animate-up-d3">Ozomin is India's first full-stack on-demand sanitation platform — connecting trained workers, real-time logistics, warehouse-grade segregation, and recycler payouts into one seamless chain.</p>
+  </div>
+</div>
+
+<!-- ORIGIN STORY -->
+<section class="page-section">
+  <div class="story-section reveal">
+    <div class="story-text">
+      <div class="section-label">The problem</div>
+      <h2>India's ₹1.5 lakh crore sanitation gap is not a technology problem. It's an infrastructure problem.</h2>
+      <p>Every Indian city has sanitation workers. What they don't have is a system that dispatches the right worker to the right location in under 15 minutes, tracks every kilo of waste collected, segregates it at warehouse level, sells recyclables at market rate, and credits the worker's UPI the same day.</p>
+      <p>Municipal systems rely on complaint registers. Private contractors hire workers with zero training, zero safety gear, and zero accountability. The waste they collect goes to the nearest dump — no segregation, no recycling revenue, no proof of work.</p>
+      <p>Ozomin was built to replace this broken chain with a complete operating system for urban sanitation — from the first job post to the last recycler invoice.</p>
+    </div>
+    <div class="story-visual">
+      <div class="story-stat-grid">
+        <div class="story-stat">
+          <div class="story-stat-val" data-count="62">0</div>
+          <div class="story-stat-label">Million tonnes of waste generated daily in India</div>
+        </div>
+        <div class="story-stat">
+          <div class="story-stat-val" data-count="75">0</div>
+          <div class="story-stat-label">% waste goes to landfill unsegregated</div>
+        </div>
+        <div class="story-stat">
+          <div class="story-stat-val" data-count="5">0</div>
+          <div class="story-stat-label">Million sanitation workers — most informal</div>
+        </div>
+        <div class="story-stat">
+          <div class="story-stat-val" data-count="15">0</div>
+          <div class="story-stat-label">Minutes — Ozomin's max worker arrival time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="page-section bg-cream">
+  <div class="section-label">What we believe</div>
+  <h2 class="section-title">Six principles we won't compromise</h2>
+  <p class="section-sub">Every decision at Ozomin is filtered through these. They're not aspirational — they're operational constraints.</p>
+  <div class="values-grid reveal">
+    <div class="value-card">
+      <div class="value-icon">⏱️</div>
+      <h3>15-minute promise</h3>
+      <p>If a worker can't reach you in 15 minutes, our hyperlocal cluster model is broken. We fix the cluster, not the promise.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">⚖️</div>
+      <h3>Every kilo tracked</h3>
+      <p>From street to warehouse to recycler — every gram of waste is photographed, weighed, graded, and accounted for. Zero dark matter.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">💰</div>
+      <h3>Waste pays for itself</h3>
+      <p>We don't treat waste as a cost centre. Recyclable revenue funds worker bonuses, warehouse ops, and city expansion. The model sustains itself.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">🛡️</div>
+      <h3>Worker dignity first</h3>
+      <p>Guaranteed salary, health insurance, PPE, Aadhaar-linked bank accounts, career progression. Workers are professionals, not gig temps.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">📡</div>
+      <h3>Offline-first tech</h3>
+      <p>Sewer workers lose signal underground. Lake workers lose signal in remote belts. Our app works fully offline and syncs when signal returns.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">🏛️</div>
+      <h3>Government-grade compliance</h3>
+      <p>Auto-generated SBM reports, GPS-stamped proof-of-work photos, Aadhaar-verified workforce. Built to pass any regulatory audit from day one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="page-section">
+  <div class="section-label">Our journey</div>
+  <h2 class="section-title">From one drain to an entire city</h2>
+  <p class="section-sub">Ozomin's growth story — city by city, warehouse by warehouse.</p>
+  <div class="timeline reveal">
+    <div class="timeline-item">
+      <div class="timeline-dot">1</div>
+      <div class="timeline-content">
+        <div class="timeline-year">Q1 2025</div>
+        <h4>The idea — after watching a failed municipal cleanup</h4>
+        <p>A 3-hour sewer blockage in Ghaziabad went unresolved because there was no system to dispatch a trained worker. Ozomin was conceived that week as a hyperlocal dispatch system for sanitation.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">2</div>
+      <div class="timeline-content">
+        <div class="timeline-year">Q2 2025</div>
+        <h4>First 20 workers trained and deployed in Sector 12</h4>
+        <p>We recruited workers from the local community, verified them via Aadhaar, provided PPE and training, and deployed them in a single 500m cluster. First job accepted within 4 minutes.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">3</div>
+      <div class="timeline-content">
+        <div class="timeline-year">Q3 2025</div>
+        <h4>OZ-01 Warehouse goes live — waste becomes revenue</h4>
+        <p>Our first warehouse in Loni started receiving worker-collected waste, segregating by material type, grading quality A/B/C, and connecting to verified recyclers. Workers earned their first per-kg bonuses.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">4</div>
+      <div class="timeline-content">
+        <div class="timeline-year">Q1 2026</div>
+        <h4>Ghaziabad-wide rollout — 3 warehouses, 100+ workers</h4>
+        <p>OZ-02 and OZ-03 warehouses opened. The full 4-app ecosystem (Worker, Request, Warehouse, Admin) went live. Municipality partnership signed for automated SBM compliance reports.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">5</div>
+      <div class="timeline-content">
+        <div class="timeline-year">Q2 2026 — NOW</div>
+        <h4>Multi-city expansion begins</h4>
+        <p>Noida and Meerut clusters under deployment. Kavach safety AI integrated. Lake & pond cleanup module live. Targeting 500 workers across 3 cities by end of year.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="page-section bg-cream">
+  <div class="section-label">The team</div>
+  <h2 class="section-title">Built by operators, not observers</h2>
+  <p class="section-sub">Every person at Ozomin has spent time in the field — at drains, at warehouses, with workers. We build what we've seen fail.</p>
+  <div class="team-grid reveal">
+    <div class="team-card">
+      <div class="team-avatar">👨‍💼</div>
+      <h4>Founder & CEO</h4>
+      <div class="role">Strategy & Operations</div>
+      <p>Previously scaled hyperlocal services across 4 cities. Now building sanitation infrastructure from scratch.</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">👩‍💻</div>
+      <h4>CTO</h4>
+      <div class="role">Product & Engineering</div>
+      <p>Built the 4-app offline-first platform. Owns Kavach safety system, GPS fleet tracking, and warehouse integration.</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">👨‍🔧</div>
+      <h4>Head of Operations</h4>
+      <div class="role">Field & Logistics</div>
+      <p>Manages 100+ workers, 3 warehouses, recycler relationships. Designs cluster deployment for new cities.</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">👩‍🏫</div>
+      <h4>Head of Training</h4>
+      <div class="role">Worker Development</div>
+      <p>Designs 14-day certification programs. Covers PPE usage, waste categorisation, app operation, and safety drills.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Want to bring Ozomin to your city? Let's talk infrastructure.</h2>
+  <div class="cta-band-actions">
+    <a class="btn-primary" href="partner.html">Partner with Us</a>
+    <a class="btn-outline-white" href="contact.html">Contact Us</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="footer-logo" href="ozomin_website.html">
+        <div class="footer-logo-dot"></div>
+        Ozomin
+      </a>
+      <div class="footer-tagline">India's first on-demand sanitation platform. Every kilo of waste collected is a kilo that pays — for a cleaner city and a better life for the worker who carried it.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <a href="about.html">About</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="careers.html">Join as Worker</a>
+      <a href="partner.html">Partner</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="#">Worker App</a>
+      <a href="#">Request App</a>
+      <a href="#">Warehouse App</a>
+      <a href="#">Admin Dashboard</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="#">Refund Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-text">© 2026 Ozomin. Maestroedge Solutions Pvt. Ltd. · Ghaziabad, UP</div>
+    <div class="footer-swachh">Aligned with Swachh Bharat Mission</div>
+  </div>
+</footer>
+
+<script src="js/shared.js"></script>
+</body>
+</html>
