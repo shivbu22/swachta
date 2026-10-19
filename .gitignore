@@ -74,3 +74,21 @@ apps/requestor/android/app/build/intermediates/merged_native_libs/debug/mergeDeb
 apps/requestor/android/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/x86/libreactnative.so
 apps/requestor/android/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/x86_64/libreactnative.so
 apps/requestor/android/app/build/outputs/apk/debug/app-debug.apk
+
+# Sensitive Credentials & Secrets (Auto-protected)
+.env
+.env.*
+*.env
+google-services.json
+**/google-services.json
+._google-services.json
+*client_secret*.json
+*service-account*.json
+*firebase-adminsdk*.json
+chatgpt-auth.json
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
